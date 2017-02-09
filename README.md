@@ -4,6 +4,9 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 
 ## Getting Started
 
+Resources Needed:
+node.js
+
 ```terminal
 git clone https://github.com/DemeBot/angular-client.git
 cd angular-client
