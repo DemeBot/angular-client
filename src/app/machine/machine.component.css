@@ -1,0 +1,28 @@
+table.farmbot-controls {
+  text-align: center;
+  margin: 0px auto;
+  width: 100%;
+}
+
+td.left-button {
+  text-align: right;
+}
+
+td.right-button {
+  text-align: left;
+}
+
+div.canvas-container {
+  display: block;
+  text-align: center;
+}
+
+.flex-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-item {
+  margin: auto 5px;
+}

@@ -1,3 +1,22 @@
-<h1>
-  {{title}}
-</h1>
+<header>
+  <h2 class="titlebar" text-color="#359007" align="center">
+    <img src="https://goo.gl/ibqsB5" alt="logo" height="40px">
+    {{title}}
+  </h2>
+  <nav align="center">
+  	<a [routerLink]="['/dashboard']" routerLinkActive="active">DASHBOARD</a>
+    <a [routerLink]="['/machine']" routerLinkActive="active">MACHINE</a>
+    <a [routerLink]="['/plant']" routerLinkActive="active">PLANT</a>
+    <a [routerLink]="['/plot']" routerLinkActive="active">PLOT</a>
+    <a [routerLink]="['/about']" routerLinkActive="active">ABOUT</a>
+  </nav>
+</header>
+
+<main>
+	<router-outlet></router-outlet>
+</main>
+
+<footer>
+  <i class="fa fa-american-sign-language-interpreting fa-5x" aria-hidden="true"> </i>
+{{footer}}
+</footer>
