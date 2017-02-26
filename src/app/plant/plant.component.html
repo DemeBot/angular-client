@@ -1,3 +1,7 @@
 <h3>Plant Component</h3>
 <p>The plant component will display all the plants listed in the plant micro-service.
   Here a user will be able to add new plants or change information on existing plant.</p>
+
+<div *ngIf="plants">
+  <div *ngFor="let plant of plants">{{plant.name}}</div>
+</div>
