@@ -3,8 +3,8 @@
   Here a user will be able to add new plants or change information on existing plant.</p>
 
 <div *ngIf="plants" class="plant-card-grid">
-  <span *ngFor="let plant of plants">
-    <md-card class="plant-card">
+  <span *ngFor="let plant of plants" class="plant-card">
+    <md-card>
       <md-card-title>
         {{plant.name}}
       </md-card-title>

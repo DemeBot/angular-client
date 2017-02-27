@@ -1,10 +1,14 @@
 .plant-card-grid {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .plant-card {
     height: 100%;
+    width: 300px;
     margin-right: 10px;
+    margin-bottom: 10px;
+    min-width: 250px;
 }
 
 .plant-card-row {
