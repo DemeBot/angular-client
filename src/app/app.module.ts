@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { rootRouterConfig } from './app.routes';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
+import { MaterialModule } from '@angular/material';
+
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { MachineComponent } from './machine/machine.component';
@@ -24,6 +26,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   imports: [
     BrowserModule,
+    MaterialModule,
     FormsModule,
     HttpModule,
     JsonpModule,

@@ -1,0 +1,25 @@
+.plant-card-grid {
+    display: flex;
+}
+
+.plant-card {
+    height: 100%;
+    margin-right: 10px;
+}
+
+.plant-card-row {
+    display: table-row;
+}
+
+.plant-card-row * {
+    display: table-cell;
+    padding: 0 10px 0 10px;
+}
+
+.plant-card-row div {
+    float: right;
+}
+
+.plant-description {
+    width: 100%
+}
