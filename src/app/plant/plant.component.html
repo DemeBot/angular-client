@@ -1,8 +1,34 @@
 <h3>Plant Component</h3>
 <p>The plant component will display all the plants listed in the plant micro-service.
   Here a user will be able to add new plants or change information on existing plant.</p>
+<div class="plant-full-window">
+<div class="plant-list">
+  <md-card>
+    <md-list *ngIf="plants">
+      <md-list-item *ngFor="let plant of plants" class="plant-list-item" (click)="onSelect(plant)">
+         {{plant.name}}
+      </md-list-item>
+ 
+    </md-list>
+    <div class="icon-container">
+      <button md-mini-fab><md-icon>add</md-icon></button>
+      <button md-mini-fab><md-icon>remove</md-icon></button>
+      
+    </div>
+  </md-card>
+</div>
 
-<div *ngIf="plants" class="plant-card-grid">
+<div class="plant-details">
+  <md-card>
+    <div *ngIf="selectedPlant">
+    {{selectedPlant.name}}
+    </div>
+  </md-card>
+</div>
+</div>
+
+
+<!--<div *ngIf="plants" class="plant-card-grid">
   <span *ngFor="let plant of plants" class="plant-card">
     <md-card>
       <md-card-title>
@@ -46,4 +72,4 @@
         </form>
     </md-card>
   </span>
-</div>
+</div>-->

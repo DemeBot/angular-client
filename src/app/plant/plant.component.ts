@@ -11,6 +11,7 @@ import { Plant } from './plant';
 export class PlantComponent implements OnInit {
 
   plants: Plant[];
+  selectedPlant: Plant;
 
   constructor( private plantService: PlantService ) {  }
 
@@ -19,7 +20,12 @@ export class PlantComponent implements OnInit {
     .then( ( plants ) => {
       console.log( JSON.stringify( plants ) );
       this.plants = plants;
+      this.selectedPlant=plants[0];
+
     } );
+  }
+  onSelect(plant:Plant):void{
+    this.selectedPlant=plant;
   }
 
   ngOnInit(): void {

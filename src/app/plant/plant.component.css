@@ -27,3 +27,26 @@
 .plant-description {
     width: 100%
 }
+
+.plant-full-window{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: slategray;
+
+}
+
+.plant-list{
+    margin: 10px;
+}
+
+.plant-list-item{
+    cursor: pointer; 
+    cursor: hand;
+}
+
+.plant-details{
+    margin: 10px;
+    flex-grow: 3;
+}
+
