@@ -11,9 +11,7 @@
  
     </md-list>
     <div class="icon-container">
-      <button md-mini-fab><md-icon>add</md-icon></button>
-      <button md-mini-fab><md-icon>remove</md-icon></button>
-      
+       <button md-raised-button class="add-plant-button"> ADD </button>
     </div>
   </md-card>
 </div>
@@ -21,7 +19,12 @@
 <div class="plant-details">
   <md-card>
     <div *ngIf="selectedPlant">
-    {{selectedPlant.name}}
+      <p>Name: {{selectedPlant.name}}</p>
+      <p>Height: {{selectedPlant.height}}</p>
+      <p>Width: {{selectedPlant.width}}</p>
+      <p>Days to harvest: {{selectedPlant.days_to_harvest}}</p>
+      <p>Depth: {{selectedPlant.depth}}</p>
+      <p>Description: {{selectedPlant.description}}</p>
     </div>
   </md-card>
 </div>
