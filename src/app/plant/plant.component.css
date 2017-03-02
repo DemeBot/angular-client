@@ -50,3 +50,15 @@
     flex-grow: 3;
 }
 
+md-icon{
+    float: right;
+}
+
+.add-plant-button{
+    background-color: lightslategray;
+}
+
+.plant-details-design{
+    background-color: lightslategrey;
+    margin: 10px;
+}

@@ -19,12 +19,14 @@
 <div class="plant-details">
   <md-card>
     <div *ngIf="selectedPlant">
-      <p>Name: {{selectedPlant.name}}</p>
-      <p>Height: {{selectedPlant.height}}</p>
-      <p>Width: {{selectedPlant.width}}</p>
-      <p>Days to harvest: {{selectedPlant.days_to_harvest}}</p>
-      <p>Depth: {{selectedPlant.depth}}</p>
-      <p>Description: {{selectedPlant.description}}</p>
+      <span><h1 align="center">{{selectedPlant.name}}</h1></span>
+      <md-list>
+      <md-list-item class="plant-details-design"><b>Height:</b> {{selectedPlant.height}}</md-list-item>
+      <md-list-item class="plant-details-design"><b>Width: </b>{{selectedPlant.width}}</md-list-item>
+      <md-list-item class="plant-details-design"><b>Days to harvest: </b>{{selectedPlant.days_to_harvest}}</md-list-item>
+      <md-list-item class="plant-details-design"><b>Depth: </b>{{selectedPlant.depth}}</md-list-item>
+      <md-list-item class="plant-details-design"><b>Description: </b>{{selectedPlant.description}}</md-list-item>
+      </md-list>
     </div>
   </md-card>
 </div>
