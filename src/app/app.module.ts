@@ -12,7 +12,10 @@ import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { MachineComponent } from './machine/machine.component';
 import { PlantComponent } from './plant/plant.component';
+
 import { PlotComponent } from './plot/plot.component';
+import { PlotBackgroudGraphicComponent } from './plot/plot-background-graphic/plot-background-graphic.component';
+
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
@@ -22,6 +25,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MachineComponent,
     PlantComponent,
     PlotComponent,
+    PlotBackgroudGraphicComponent,
     DashboardComponent
   ],
   imports: [
