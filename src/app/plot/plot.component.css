@@ -1,0 +1,9 @@
+.plot-full-window{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: slategray;
+}
+.plant-list{
+    margin: 10px;
+}

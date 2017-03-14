@@ -62,3 +62,19 @@ md-icon{
     background-color: lightslategrey;
     margin: 10px;
 }
+
+.column_editor{
+    background-color: aqua;
+    width: 25%;
+    border-radius: 10px;
+    padding: 5px;
+    margin:10px;
+
+}
+.infor_editor{
+    background-color: aquamarine;
+    width: 75%;
+    border-radius: 10px;
+    padding: 5px 7px;
+   
+}

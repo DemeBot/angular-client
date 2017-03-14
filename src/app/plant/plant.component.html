@@ -21,13 +21,36 @@
   <md-card>
     <div *ngIf="selectedPlant">
       <span><h1 align="center">{{selectedPlant.name}}</h1></span>
-      <md-list>
+      <table>
+          <tr><th class="column_editor">HEIGHT</th><td class="infor_editor">{{selectedPlant.height}}</td></tr>
+          <tr><th class="column_editor">WIDTH</th><td class="infor_editor">{{selectedPlant.width}}</td></tr>
+          <tr><th class="column_editor">DAYS TO HARVEST</th><td class="infor_editor">{{selectedPlant.days_to_harvest}}</td></tr>
+          <tr><th class="column_editor">DEPTH</th><td class="infor_editor">{{selectedPlant.depth}}</td></tr>
+        
+      </table>
+      <!--<div id="wrapper">
+        <nav class="content"><b>Height<br>Width<br>Days to harvest <br>Depth</b></nav>
+        <main class="content">{{selectedPlant.height}}</main>
+      </div>
+       <div id="wrapper">
+        <nav class="content"><b>Width             </b></nav>
+        <main class="content">{{selectedPlant.width}}</main>
+      </div>
+       <div id="wrapper">
+        <nav class="content"><b>Days to harvest </b></nav>
+        <main class="content">{{selectedPlant.days_to_harvest}}</main>
+      </div>
+       <div id="wrapper">
+        <nav class="content"><b>Depth             </b></nav>
+        <main class="content">{{selectedPlant.days_to_harvest}}</main>
+      </div>-->
+      <!--<md-list>
       <md-list-item class="plant-details-design"><b>Height:</b> {{selectedPlant.height}}</md-list-item>
       <md-list-item class="plant-details-design"><b>Width: </b>{{selectedPlant.width}}</md-list-item>
       <md-list-item class="plant-details-design"><b>Days to harvest: </b>{{selectedPlant.days_to_harvest}}</md-list-item>
       <md-list-item class="plant-details-design"><b>Depth: </b>{{selectedPlant.depth}}</md-list-item>
       
-      </md-list>
+      </md-list>-->
     </div>
   </md-card>
 </div>
