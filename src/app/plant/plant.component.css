@@ -78,3 +78,7 @@ md-icon{
     padding: 5px 7px;
    
 }
+.uppercase{
+    text-transform: uppercase;
+}
+

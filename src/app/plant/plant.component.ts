@@ -32,3 +32,13 @@ export class PlantComponent implements OnInit {
     this.getPlants();
   }
 }
+
+export class plantComponent{
+  private basil=require("./../../assets/basil.jpg");
+  private mint = require("./../../assets/mint.jpg");
+  private tomatoes = require("./../../assets/tomatoes.jpg");
+  private cilantro=require("./../../assets/cilantro.jpg");
+  private lettuce=require("./../../assets/lettuce.jpg");
+  private oregano=require("./../../assets/oregano.jpg");
+  constructor(){};
+}
