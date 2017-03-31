@@ -52,7 +52,9 @@ export class PlantService {
         // If baseUrl has a port number
         if ( ( baseUrl.match(/:/g) || [] ).length > 1 ) {
             // remove port number
-            this.serviceUrl = baseUrl.substr(0,baseUrl.lastIndexOf("\:"));
+            // this.serviceUrl = baseUrl.substr(0,baseUrl.lastIndexOf("\:"));
+            // Set service url to beta site
+            this.serviceUrl = "http://beta.ungear.us"
         }
         else {
             this.serviceUrl = baseUrl;
