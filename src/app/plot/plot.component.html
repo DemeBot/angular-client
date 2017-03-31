@@ -1,21 +1,18 @@
 <div class="plot-full-window">
-    <div class="plot-list">
-        <md-card>
-            <md-list *ngIf="plotPositions">
-                <md-list-item *ngFor="let plot of plotPositions" (click)="onSelect(plot)">
-                    {{plot.id}}
-                </md-list-item>
-            </md-list>   
+    <md-card  class="plot-list">
+        <md-list *ngIf="plotPositions">
+            <md-list-item *ngFor="let plot of plotPositions" (click)="onSelect(plot)">
+                <button md-button>{{plot.id}}</button>
+            </md-list-item>
+        </md-list>   
 
-        </md-card>
-    </div>
+    </md-card>
 
     <div class="selected-plot-details">
-        <md-card>
-            <div *ngIf="selectedPlot">
-                <table>
-                    <tr><td>{{selectedPlot.r}}</td></tr>
-                </table>
-            </div>
+        <md-card *ngIf="selectedPlot">
+            Radius: {{selectedPlot.r}}<br>
+            Angle: {{selectedPlot.t}}<br>
+            Height: {{selectedPlot.z}}
         </md-card>
+    </div>
 </div>
