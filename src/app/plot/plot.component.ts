@@ -1,15 +1,24 @@
-import {Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
+import { PlotService } from './plot.service';
+import { PlotContent } from './plotContent';
+import { PlotPosition } from './plotPositions';
 
 @Component({
   selector: 'plot',
   styleUrls: ['./plot.component.css'],
-  templateUrl: './plot.component.html'
+  templateUrl: './plot.component.html',
+  providers: [ PlotService ]
 })
 
-export class PlotComponent {
+export class PlotComponent implements OnInit {
+
+  plotPositions: PlotPosition[];
+  selectedPosition: PlotPosition;
+
   selectedPlot;
-  plotPositions: any[] = [
+
+  mockPlotPositions: any[] = [
    { pos: 1, r: 200, t: 0, z: 0 },
    { pos: 2, r: 200, t: 45, z: 0 },
    { pos: 3, r: 200, t: 90, z: 0 },
@@ -25,8 +34,27 @@ export class PlotComponent {
    { pos: 13, r: 400, t: 158, z: 0 },
    { pos: 14, r: 400, t: 180, z: 0 },
  ]
+
+ constructor( private plotService: PlotService ) {  }
+
+ getPositions(): void {
+   this.plotService.getPositions()
+   .then( ( positions ) => {
+     console.log( JSON.stringify( positions ) );
+     if ( positions ) {
+      this.plotPositions = positions;
+      this.selectedPosition = positions[0]; 
+     }
+   } );
+ }
+
  onSelect(plot:PlotComponent):void{
     this.selectedPlot=plot;
  }
+
+ ngOnInit() {
+   this.getPositions();
+ }
+
 }
 

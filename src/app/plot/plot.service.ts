@@ -5,13 +5,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
 
 import { PlotContent } from './plotContent';
+import { PlotPosition } from './plotPositions';
 
 
 
 const baseUrl: string = window.location.origin;
 
 @Injectable()
-export class PlantService {
+export class PlotService {
 
     serviceUrl;
 
@@ -26,13 +27,20 @@ export class PlantService {
         else {
             this.serviceUrl = baseUrl;
         }
-        this.serviceUrl += ":8080" + "/plots/api";
+        this.serviceUrl += ":8080" + "/plot/api";
     }
 
-    getPlants(): Promise<PlotContent[]> {
-        return this.http.get( this.serviceUrl )
+    getContents(): Promise<PlotContent[]> {
+        return this.http.get( this.serviceUrl + "/contents" )
         .toPromise()
-        .then( response => response.json().plants as PlotContent[] )
+        .then( response => response.json().plot_content as PlotContent[] )
+        .catch( this.handleError )
+    }
+
+    getPositions(): Promise<PlotPosition[]> {
+        return this.http.get( this.serviceUrl + "/positions" )
+        .toPromise()
+        .then( response => response.json().plot_position as PlotPosition[] )
         .catch( this.handleError )
     }
 

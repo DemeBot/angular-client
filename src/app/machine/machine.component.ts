@@ -1,4 +1,4 @@
-import {Component, ViewChild, ElementRef, AfterViewInit, OnInit} from '@angular/core';
+import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 
 @Component({
   selector: 'machine',
