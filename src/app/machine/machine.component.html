@@ -1,5 +1,13 @@
 <div class="canvas-container">
-  <canvas #myCanvas></canvas>
+  <div id="plot-container">
+    <app-plot-background [plot]="plot" [margin]=10 class="appPlotBackground"></app-plot-background>
+    <app-plot-position-graphic
+    [plot]="plot" [positions]="plotPositions"
+    [margin]=10 [selected]="selectedPlot"
+    class="appPlotPositionGraphic">
+    </app-plot-position-graphic>
+    <canvas #myCanvas class="myCanvas"></canvas>
+  </div>
   <canvas #zCanvas></canvas>
 </div>
 

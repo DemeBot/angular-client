@@ -1,14 +1,31 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 
+import { Plot } from './../plot/plot';
+
+import { PlotService } from './../plot/plot.service';
+import { PlotContent } from './../plot/plotContent';
+import { PlotPosition } from './../plot/plotPositions';
+
 @Component({
   selector: 'machine',
   styleUrls: ['./machine.component.css'],
-  templateUrl: './machine.component.html'
+  templateUrl: './machine.component.html',
+  providers: [ PlotService ]
 })
 
 export class MachineComponent implements OnInit, AfterViewInit {
   @ViewChild("myCanvas") canvas: ElementRef;
   @ViewChild("zCanvas") zCanvas: ElementRef;
+
+
+  plot: Plot = {
+    radius: 500,
+    angle: Math.PI,
+    height: 1200,
+    trackWidth: 90,
+    poleRadius: 45
+  }
+
   angle = 0;
   gantryRadius = 15;
   gantryMinRadius = 15;
@@ -16,6 +33,13 @@ export class MachineComponent implements OnInit, AfterViewInit {
   zMinPosition = .01;
   zMaxPosition = 1;
   zPostion = this.zMaxPosition;
+  
+  plotPositions: PlotPosition[];
+  selectedPosition: PlotPosition;
+
+  selectedPlot;
+
+  constructor( private plotService: PlotService ) {  }
 
   ngAfterViewInit() {
     this.renderPlot();
@@ -23,7 +47,7 @@ export class MachineComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-
+    this.getPositions();
   }
 
   btnIn(): void {
@@ -50,6 +74,17 @@ export class MachineComponent implements OnInit, AfterViewInit {
     if (this.angle > 0) this.angle = this.angle - 5;
     this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
   }
+
+   getPositions(): void {
+   this.plotService.getPositions()
+   .then( ( positions ) => {
+     // console.log( JSON.stringify( positions ) );
+     if ( positions ) {
+      this.plotPositions = positions;
+      this.selectedPosition = positions[0]; 
+     }
+   } );
+ }
 
   renderPlot(): void {
     let ctx: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
@@ -83,28 +118,28 @@ export class MachineComponent implements OnInit, AfterViewInit {
     zCtx.lineTo(25,zMax);
     zCtx.stroke();
 
-    // track
-    ctx.beginPath();
-    ctx.arc(centerX,centerY,width/2,0,Math.PI);
-    ctx.fillStyle = '#ffdead';
-    ctx.fill();
-    ctx.stroke();
+    // // track
+    // ctx.beginPath();
+    // ctx.arc(centerX,centerY,width/2,0,Math.PI);
+    // ctx.fillStyle = '#ffdead';
+    // ctx.fill();
+    // ctx.stroke();
 
-    // plot
-    ctx.beginPath();
-    ctx.arc(centerX,centerY,(width/2)-trackOffset,0,Math.PI);
-    ctx.fillStyle = '#CD853F';
-    ctx.fill();
-    ctx.moveTo(centerX-trackRadius, margin);
-    ctx.lineTo(centerX+trackRadius, margin);
-    ctx.stroke();
+    // // plot
+    // ctx.beginPath();
+    // ctx.arc(centerX,centerY,(width/2)-trackOffset,0,Math.PI);
+    // ctx.fillStyle = '#CD853F';
+    // ctx.fill();
+    // ctx.moveTo(centerX-trackRadius, margin);
+    // ctx.lineTo(centerX+trackRadius, margin);
+    // ctx.stroke();
 
-    // center pole
-    ctx.beginPath();
-    ctx.arc((width+2*margin)/2,margin,10,0,2*Math.PI);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
-    ctx.stroke();
+    // // center pole
+    // ctx.beginPath();
+    // ctx.arc((width+2*margin)/2,margin,10,0,2*Math.PI);
+    // ctx.fillStyle = '#FFFFFF';
+    // ctx.fill();
+    // ctx.stroke();
   }
 
   drawPosition(theta, gantryRadius, zPosition): void {

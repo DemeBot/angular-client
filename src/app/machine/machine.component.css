@@ -13,8 +13,9 @@ td.right-button {
 }
 
 div.canvas-container {
-  display: block;
+  display: flex;
   text-align: center;
+  flex-direction: row;
 }
 
 .flex-container {
@@ -25,4 +26,24 @@ div.canvas-container {
 
 .flex-item {
   margin: auto 5px;
+}
+
+#plot-container {
+    position: relative;
+}
+
+.myCanvas {
+    position: absolute;
+    top: 5px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.appPlotPositionGraphic {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
 }

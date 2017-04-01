@@ -62,7 +62,7 @@ export class PlotComponent implements OnInit {
    delete( this.selectedPlot );
  }
 
- onSelect(plot:PlotComponent): void{
+ onSelect( plot:PlotContent ): void{
    if ( this.selectedPlot === plot )
       delete(  this.selectedPlot );
    else
