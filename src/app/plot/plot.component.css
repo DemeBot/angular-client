@@ -17,3 +17,15 @@ md-card.plot-list {
     padding: 0px;
     margin: 10px;
 }
+
+#plot-container {
+    position: relative;
+}
+
+app-plot-position-graphic {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}

@@ -15,6 +15,7 @@ import { PlantComponent } from './plant/plant.component';
 
 import { PlotComponent } from './plot/plot.component';
 import { PlotBackgroudGraphicComponent } from './plot/plot-background-graphic/plot-background-graphic.component';
+import { PlotPositionGraphicComponent } from './plot/plot-position-graphic/plot-position-graphic.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -26,6 +27,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     PlantComponent,
     PlotComponent,
     PlotBackgroudGraphicComponent,
+    PlotPositionGraphicComponent,
     DashboardComponent
   ],
   imports: [

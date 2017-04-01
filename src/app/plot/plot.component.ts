@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { PlotService } from './plot.service';
 import { PlotContent } from './plotContent';
@@ -14,6 +14,7 @@ import { Plot } from './plot';
 })
 
 export class PlotComponent implements OnInit {
+
   plot: Plot = {
     radius: 600,
     angle: Math.PI,
