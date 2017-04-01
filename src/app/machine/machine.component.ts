@@ -151,7 +151,7 @@ export class MachineComponent implements OnInit, AfterViewInit {
     let width = canvasWidth - (2 * margin);
     let height = 400;
     let centerX = canvasWidth / 2;
-    let centerY = margin;
+    let centerY = margin + 7.5;
     let trackOffset = 25;
     let gantryLocation = 50;
     let trackRadius = width/2;
@@ -181,7 +181,7 @@ export class MachineComponent implements OnInit, AfterViewInit {
 
     // center pole
     ctx.beginPath();
-    ctx.arc((width+2*margin)/2,margin,10,0,2*Math.PI);
+    ctx.arc((width+2*margin)/2,centerY,10,0,2*Math.PI);
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
     ctx.stroke();
