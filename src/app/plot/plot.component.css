@@ -9,6 +9,10 @@
     margin: 10px 10px 10px 0px;
 }
 
+.plot-panel-spacer {
+    margin: 10px;
+}
+
 md-card.plot-list {
     padding: 0px;
     margin: 10px;

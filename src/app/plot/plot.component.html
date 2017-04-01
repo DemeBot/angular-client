@@ -14,8 +14,11 @@ plant micro-service. A user can also remove plants from this component.</p>
     </md-card>
 
     <div class="selected-plot-details">
-        <md-card *ngIf="selectedPlot">
+        <md-card>
             <app-plot-background [plot]="plot" [margin]=10></app-plot-background>
+        </md-card>
+        <div class="plot-panel-spacer"></div>
+        <md-card *ngIf="selectedPlot">
             Radius: {{selectedPlot.r}}<br>
             Angle: {{selectedPlot.t}}<br>
             Height: {{selectedPlot.z}}
