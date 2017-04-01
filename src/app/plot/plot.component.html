@@ -1,11 +1,8 @@
-<<<<<<< HEAD
 <h3>Plot Component</h3>
 <p>The plot component will show the current status of all plants that are currently
 planted. Here users will be able to layout their desired plot from the plants listed in
 plant micro-service. A user can also remove plants from this component.</p>
 
-<app-plot-background [plot]="plot" [margin]=10></app-plot-background>
-=======
 <div class="plot-full-window">
     <md-card  class="plot-list">
         <md-list *ngIf="plotPositions">
@@ -18,10 +15,10 @@ plant micro-service. A user can also remove plants from this component.</p>
 
     <div class="selected-plot-details">
         <md-card *ngIf="selectedPlot">
+            <app-plot-background [plot]="plot" [margin]=10></app-plot-background>
             Radius: {{selectedPlot.r}}<br>
             Angle: {{selectedPlot.t}}<br>
             Height: {{selectedPlot.z}}
         </md-card>
     </div>
 </div>
->>>>>>> feature/plant
