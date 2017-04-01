@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnInit, OnChanges } from '@angular/core';
 
 import { Plot } from './../plot';
 import { PlotPosition } from './../plotPositions';
@@ -16,6 +16,9 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
   @Input() positions: PlotPosition[];
   @Input() selected: PlotPosition;
 
+  @Output() plotClick = new EventEmitter();
+  @Output() clear = new EventEmitter();
+
   // Margin to show around the image render. Can be provided from directive.
   @Input() margin: number = 10;
 
@@ -27,22 +30,10 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
   private canvasWidth: number;
   private canvasHeight: number;
   private center: { x: number, y: number };
+  private scaleFactor: number;
 
   ngAfterViewInit() {
     this.canvasSetup();
-    let bigCircle = this.s.circle( this.center.x, this.center.y, 25 );
-
-    this.updatePositions();
-
-    bigCircle.click( () => {
-      console.log("TEST");
-    } );
-
-    bigCircle.attr({
-      fill: "#bada55",
-      stroke: "#000",
-      strokeWidth: 5
-    });
   }
 
   ngOnChanges() {
@@ -56,19 +47,19 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
     if ( this.positions )
     this.positions.forEach( ( position: PlotPosition ) => {
       let angle = position.t * Math.PI / 180.0;
-      let x_pos = Math.cos( angle ) * position.r;
-      let y_pos = Math.sin( angle ) * position.r;
-      let size: number = 50;
+      let x_pos = Math.cos( angle ) * position.r * this.scaleFactor;
+      let y_pos = Math.sin( angle ) * position.r * this.scaleFactor;
+      let size: number = 25;
       let color: string = "green";
 
       if ( this.selected ) {
         if ( this.selected.id === position.id ) {
-          size = 75;
+          size = 35;
           color = "limegreen";
         }
       }
 
-      let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos, size);
+      let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos, size * this.scaleFactor);
 
       this.plants.push(plant);
 
@@ -79,11 +70,9 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
       });
       
       plant.click( ( event ) => {
-        console.log( position.id );
+        console.log( "id: " + position.id + " R:" + position.r + " Theta:" + position.t );
+        this.plotClick.emit( position );
       } );
-      // console.log( "id: " + position.id );
-      // console.log( Math.cos( angle ) );
-      // console.log( "angle: " + position.t );
     });
   }
 
@@ -97,15 +86,26 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
     this.canvasWidth = ( this.plot.radius + this.plot.trackWidth + this.margin ) * 2;
     this.canvasHeight = this.plot.radius + this.plot.trackWidth + this.plot.poleRadius + this.margin * 2;
 
+    // Set a scale factor
+    this.scaleFactor = 2000/this.canvasWidth;
+
     // Apply sizing to the canvas
     this.canvas.nativeElement.setAttribute( 'width', this.canvasWidth );
     this.canvas.nativeElement.setAttribute( 'height', this.canvasHeight );
 
+    // Set up blackground
+    this.s.rect(0,0,2000,1000)
+    .attr( {
+      fillOpacity: 0.0
+    } )
+    .click( ( event ) => {
+      this.clear.emit();
+    } );
 
     // Get plot centerpoint
     this.center = {
-      x: this.canvasWidth / 2 + 50,
-      y: this.plot.poleRadius + this.margin + 20
+      x: 1000,
+      y: 45
     }
   }
 }

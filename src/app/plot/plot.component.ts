@@ -16,7 +16,7 @@ import { Plot } from './plot';
 export class PlotComponent implements OnInit {
 
   plot: Plot = {
-    radius: 600,
+    radius: 500,
     angle: Math.PI,
     height: 1200,
     trackWidth: 90,
@@ -50,7 +50,7 @@ export class PlotComponent implements OnInit {
  getPositions(): void {
    this.plotService.getPositions()
    .then( ( positions ) => {
-     console.log( JSON.stringify( positions ) );
+     // console.log( JSON.stringify( positions ) );
      if ( positions ) {
       this.plotPositions = positions;
       this.selectedPosition = positions[0]; 
@@ -58,8 +58,15 @@ export class PlotComponent implements OnInit {
    } );
  }
 
- onSelect(plot:PlotComponent):void{
-    this.selectedPlot=plot;
+ clearSelection(): void {
+   delete( this.selectedPlot );
+ }
+
+ onSelect(plot:PlotComponent): void{
+   if ( this.selectedPlot === plot )
+      delete(  this.selectedPlot );
+   else
+      this.selectedPlot=plot;
  }
 
  ngOnInit() {
