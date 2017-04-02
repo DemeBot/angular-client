@@ -172,7 +172,7 @@ export class MachineComponent implements OnInit, AfterViewInit {
     let zMax = 25;
     let zMin = canvasHeight-55;
 
-    this.printPosition();
+    // this.printPosition();
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
     zCtx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
