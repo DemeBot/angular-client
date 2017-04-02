@@ -26,11 +26,12 @@ export class MachineComponent implements OnInit, AfterViewInit {
     poleRadius: 45
   }
 
-  angle = 0;
   gantryRadius = 15;
-  gantryMinRadius = 15;
-  gantryMaxRadius = 290;
-  zMinPosition = .01;
+
+  angle = 0;
+  gantryLocation = this.plot.poleRadius + this.gantryRadius;
+  gantryMaxRadius = 500;
+  zMinPosition = 0;
   zMaxPosition = 1;
   zPostion = this.zMaxPosition;
   
@@ -43,36 +44,48 @@ export class MachineComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.renderPlot();
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
   }
 
   ngOnInit() {
     this.getPositions();
   }
 
-  btnIn(): void {
-    if (this.gantryRadius > this.gantryMinRadius) this.gantryRadius = this.gantryRadius - 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+  printPosition(){
+    console.log( "R:" + this.gantryLocation + " T:" + this.angle + " Z:" + this.zPostion ) ;
+    console.log( "G00 " + "R" + this.gantryLocation + " T" + Math.ceil( this.angle ) + " Z" + Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) );
   }
-  btnOut(): void {
-    if (this.gantryRadius < this.gantryMaxRadius) this.gantryRadius = this.gantryRadius + 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+
+  btnIn( amount: number ): void {
+    if ( this.gantryLocation > ( this.plot.poleRadius + this.gantryRadius ) ) this.gantryLocation = this.gantryLocation - amount;
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
   }
-  btnUp(): void {
-    if (this.zPostion > this.zMinPosition) this.zPostion = this.zPostion - .05;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+
+  btnOut( amount: number ): void {
+    if ( this.gantryLocation < this.plot.radius ) this.gantryLocation = this.gantryLocation + amount;
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
   }
-  btnDown(): void {
-    if (this.zPostion < this.zMaxPosition) this.zPostion = this.zPostion + .05;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+
+  btnUp( amount: number ): void {
+    amount /= this.plot.height;
+    if ( ( this.zPostion - amount ) >= this.zMinPosition) this.zPostion = this.zPostion - amount;
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
   }
-  btnClockwise(): void {
-    if (this.angle < 180) this.angle = this.angle + 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+
+  btnDown( amount: number ): void {
+    amount /= this.plot.height;
+    if ( ( this.zPostion + amount ) <= this.zMaxPosition) this.zPostion = this.zPostion + amount;
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
   }
-  btnCounterclockwise(): void {
-    if (this.angle > 0) this.angle = this.angle - 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+
+  btnClockwise( amount: number ): void {
+    if ( ( this.angle + amount ) <= 180) this.angle = this.angle + amount;
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
+  }
+
+  btnCounterclockwise( amount: number ): void {
+    if ( ( this.angle - amount ) >= 0) this.angle = this.angle - amount;
+    this.drawPosition(this.angle, this.gantryLocation, this.zPostion);
   }
 
    getPositions(): void {
@@ -89,10 +102,10 @@ export class MachineComponent implements OnInit, AfterViewInit {
   renderPlot(): void {
     let ctx: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
     let zCtx: CanvasRenderingContext2D = this.zCanvas.nativeElement.getContext("2d");
-    let margin = 20;
-    let canvasWidth = 600;
-    let canvasHeight = (canvasWidth/2) + margin;
-    let width = canvasWidth - (2 * margin);
+    let margin = 10;
+    let canvasWidth = ( this.plot.radius + this.plot.trackWidth + margin ) * 2;
+    let canvasHeight = ( canvasWidth / 2 ) + margin;
+    let width = canvasWidth - ( 2 * margin );
     let height = 400;
     let centerX = canvasWidth / 2;
     let centerY = margin;
@@ -142,23 +155,24 @@ export class MachineComponent implements OnInit, AfterViewInit {
     // ctx.stroke();
   }
 
-  drawPosition(theta, gantryRadius, zPosition): void {
+  drawPosition(theta, gantryLocation, zPosition): void {
     let ctx: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
     let zCtx: CanvasRenderingContext2D = this.zCanvas.nativeElement.getContext("2d");
-    let margin = 20;
-    let canvasWidth = 600;
+    let margin = 10;
+    let canvasWidth = ( this.plot.radius + this.plot.trackWidth + margin ) * 2;
     let canvasHeight = (canvasWidth/2) + margin;
     let width = canvasWidth - (2 * margin);
     let height = 400;
     let centerX = canvasWidth / 2;
-    let centerY = margin + 7.5;
+    let centerY = margin + 45;
     let trackOffset = 25;
-    let gantryLocation = 50;
     let trackRadius = width/2;
-    let gantryExtension = 10;
-    let r = trackRadius+gantryExtension;
+    let gantryExtension = 45;
+    let r = this.plot.radius+gantryExtension;
     let zMax = 25;
     let zMin = canvasHeight-55;
+
+    this.printPosition();
 
     ctx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
     zCtx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
@@ -174,14 +188,14 @@ export class MachineComponent implements OnInit, AfterViewInit {
     // gantry
     ctx.beginPath();
     ctx.lineWidth = 1;
-    ctx.arc(centerX+gantryRadius*(Math.cos(Math.PI * theta / 180.0)),centerY+gantryRadius*(Math.sin(Math.PI * theta / 180.0)),5,0,2*Math.PI);
+    ctx.arc(centerX+gantryLocation*(Math.cos(Math.PI * theta / 180.0)),centerY+gantryLocation*(Math.sin(Math.PI * theta / 180.0)), this.gantryRadius, 0, 2*Math.PI);
     ctx.fillStyle = '#0000FF';
     ctx.fill();
     ctx.stroke();
 
     // center pole
     ctx.beginPath();
-    ctx.arc((width+2*margin)/2,centerY,10,0,2*Math.PI);
+    ctx.arc( ( width + 2  *margin ) / 2, centerY, this.plot.poleRadius, 0, 2*Math.PI );
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
     ctx.stroke();

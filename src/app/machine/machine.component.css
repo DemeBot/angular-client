@@ -22,14 +22,35 @@ div.canvas-container {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .flex-item {
-  margin: auto 5px;
+  margin: 5px;
+}
+
+.button-group {
+  background-color: slategrey;
+  display: flex;
+  flex-direction: row;
+  vertical-align: middle;
+  margin: 5px;
+}
+
+.button-group-label {
+    display:flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #plot-container {
     position: relative;
+}
+
+.button-col {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
 }
 
 .myCanvas {
