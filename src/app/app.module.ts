@@ -32,11 +32,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   ],
   imports: [
     BrowserModule,
-    MaterialModule,
+    MaterialModule.forRoot(),
     FormsModule,
     HttpModule,
     JsonpModule,
     RouterModule.forRoot(rootRouterConfig, { useHash: false })
+  ],
+  exports:[
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
