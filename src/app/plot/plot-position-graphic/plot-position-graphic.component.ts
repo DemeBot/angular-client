@@ -59,7 +59,7 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
         }
       }
 
-      let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos, size * this.scaleFactor);
+      let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos + this.margin * 1 / this.scaleFactor, size * this.scaleFactor);
 
       this.plants.push(plant);
 

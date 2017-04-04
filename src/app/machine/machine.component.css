@@ -12,10 +12,16 @@ td.right-button {
   text-align: left;
 }
 
-div.canvas-container {
+.machine-page {
+  display: flex;
+  flex-direction: row;
+}
+
+.canvas-container {
   display: flex;
   text-align: center;
-  flex-direction: row;
+  flex-direction: column;
+  width: 100%;
 }
 
 .flex-container {
@@ -54,17 +60,20 @@ div.canvas-container {
   margin: 5px;
 }
 
-.myCanvas {
+app-plot-position-graphic {
     position: absolute;
     top: 0px;
     left: 0px;
     width: 100%;
 }
 
-.appPlotPositionGraphic {
+app-machine-state-graphic {
     position: absolute;
     top: 0px;
     left: 0px;
     width: 100%;
-    height: 100%;
+}
+
+#ghost-state {
+  opacity: 0.5;
 }
