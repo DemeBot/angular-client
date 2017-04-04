@@ -9,15 +9,15 @@
     <button md-raised-button [routerLink]="['/about']" routerLinkActive="active">ABOUT</button>
 </md-toolbar>
 
-<main>
+<div class="main-content">
+  <main>
   <div style="height: 80px;"></div>
   <md-card>
     <router-outlet></router-outlet>
   </md-card>
-  <div style="height: 50px;"></div>
-</main>
-
-<footer>
-  <i class="fa fa-american-sign-language-interpreting fa-5x" aria-hidden="true"> </i>
-{{footer}}
-</footer>
+  </main>
+  <footer>
+    <i class="fa fa-american-sign-language-interpreting fa-5x" aria-hidden="true"> </i>
+  {{footer}}
+  </footer>
+</div>
