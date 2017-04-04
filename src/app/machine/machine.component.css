@@ -43,8 +43,9 @@ div.canvas-container {
     justify-content: center;
 }
 
-#plot-container {
+.plot-container {
     position: relative;
+    width: 100%
 }
 
 .button-col {

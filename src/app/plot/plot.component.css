@@ -18,8 +18,9 @@
     margin: 10px 10px 0px 10px;
 }
 
-#plot-container {
+.plot-container {
     position: relative;
+    width: 100%;
 }
 
 app-plot-position-graphic {
