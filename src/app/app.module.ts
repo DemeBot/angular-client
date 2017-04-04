@@ -21,6 +21,7 @@ import { PlotBackgroudGraphicComponent } from './plot/plot-background-graphic/pl
 import { PlotPositionGraphicComponent } from './plot/plot-position-graphic/plot-position-graphic.component';
 
 import { WebSocketService } from './shared/websocket.service';
+import { SerialService } from './shared/serial.service';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -49,7 +50,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MaterialModule
   ],
   providers: [
-    WebSocketService
+    WebSocketService,
+    SerialService
   ],
   bootstrap: [AppComponent]
 })

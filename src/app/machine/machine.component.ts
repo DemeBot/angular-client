@@ -1,12 +1,15 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs/Observable';
+
 import { PlotService } from './../plot/plot.service';
 
 import { Plot } from './../plot/plot';
 import { PlotContent } from './../plot/plotContent';
 import { PlotPosition } from './../plot/plotPositions';
 
-import { MachineState } from './machine-state-graphic/machine-state';
+import { MachineState } from './../shared/machine-state';
+import { SerialService } from './../shared/serial.service';
 
 @Component({
   selector: 'machine',
@@ -39,16 +42,31 @@ export class MachineComponent implements OnInit {
 
   selectedPlot;
 
-  state: MachineState = {
+  ghostState: MachineState = {
     R: this.gantryLocation,
     T: this.angle,
     Z: 0
   }
 
-  constructor( private plotService: PlotService ) {  }
+  state: MachineState = {
+    R: 0,
+    T: 0,
+    Z: 0
+  };
+
+  constructor( private sS: SerialService, private plotService: PlotService ) {  }
 
   ngOnInit() {
     this.getPositions();
+    console.log("TEST");
+
+    this.sS.messages.subscribe( msg => {
+      console.log("machine");
+    } );
+
+    this.sS.states.subscribe( state => {
+      this.state = state;
+    } );
   }
 
   printPosition(){
@@ -58,34 +76,34 @@ export class MachineComponent implements OnInit {
 
   btnIn( amount: number ): void {
     if ( this.gantryLocation > ( this.plot.poleRadius + this.gantryRadius ) ) this.gantryLocation = this.gantryLocation - amount;
-    this.state = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
   btnOut( amount: number ): void {
     if ( this.gantryLocation < this.plot.radius ) this.gantryLocation = this.gantryLocation + amount;
-    this.state = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
   btnUp( amount: number ): void {
     amount /= this.plot.height;
     if ( ( this.zPostion - amount ) >= this.zMinPosition) this.zPostion = this.zPostion - amount;
-    this.state = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
   btnDown( amount: number ): void {
     amount /= this.plot.height;
     if ( ( this.zPostion + amount ) <= this.zMaxPosition) this.zPostion = this.zPostion + amount;
-    this.state = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
   btnClockwise( amount: number ): void {
     if ( ( this.angle + amount ) <= 180) this.angle = this.angle + amount;
-    this.state = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
   btnCounterclockwise( amount: number ): void {
     if ( ( this.angle - amount ) >= 0) this.angle = this.angle - amount;
-    this.state = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
    getPositions(): void {

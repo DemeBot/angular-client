@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit, OnInit, OnChanges } from '@angular/core';
 
 import { Plot } from './../../plot/plot';
-import { MachineState } from './machine-state';
+import { MachineState } from './../../shared/machine-state';
 
 const Snap = require(`imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js`);
 

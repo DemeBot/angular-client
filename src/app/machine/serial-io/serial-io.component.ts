@@ -7,11 +7,10 @@ import { SerialService } from './../../shared/serial.service';
 		<div class="messages">
 			<h2>Recieved messages:</h2>
 			<p *ngFor="let msg of messages">
-				<strong>({{msg}})</strong> 
+				<strong>{{msg}}</strong> 
 			</p>
 		</div>
-	`,
-    providers: [ SerialService ]
+	`
 })
 
 export class SerialIOComponent implements OnInit {
@@ -23,7 +22,12 @@ export class SerialIOComponent implements OnInit {
 
 	ngOnInit() {
 		this.serialService.messages.subscribe(msg => {
+			console.log("serial-io1");
 			this.messages.push(msg);
+		});
+
+		this.serialService.messages.subscribe(msg => {
+			console.log("serial-io2");
 		});
 	}
 }
