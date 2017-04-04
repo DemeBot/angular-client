@@ -32,12 +32,18 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-    background-color: slategray;
+    background-color: #359007;
 
 }
 
-.plant-list{
+.plant-list-container{
     margin: 10px;
+    text-align: center;
+    padding: 0px;
+}
+
+.plant-list {
+    padding-top: 15px;
 }
 
 .plant-list-item{
@@ -54,12 +60,21 @@ md-icon{
     float: right;
 }
 
+md-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
 .add-plant-button{
-    background-color: lightslategray;
+    background-color: #359007;
 }
 
 .plant-details-design{
-    background-color: lightslategrey;
+    background-color: #359007;
     margin: 10px;
 }
 

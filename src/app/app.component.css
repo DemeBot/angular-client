@@ -1,56 +1,39 @@
-h1 {
-  font-size: 1.2em;
-  color: #999;
-  margin-bottom: 0;
-}
-h2 {
-  font-size: 2em;
-  color: #999;
-}
-h2.titlebar {
-  font-size: 2em;
-  margin-top: 0px;
-  margin-bottom: 10px;
-  padding-top: 0;
+
+md-toolbar {
   color: #359007;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin-bottom: 20px;
+  z-index: 1;
+  position: fixed;
+  top: 0px;
+  height: 65px;
+  font-size: 1.5em;
 }
-nav a {
-  padding: 5px 10px;
-  margin-left: 10px;
-  text-decoration: none;
-  display: inline-block;
+
+md-toolbar img {
+  padding: 10px;
+}
+
+button {
+  margin: 0px 5px;
+}
+
+.main-content {
+  height: 100%;
+  z-index: 0;
+  padding-left: 10%;
+  padding-right: 10%;
   background-color: #eee;
-  border-radius: 4px;
-}
-nav a:visited, a:link {
-  color: #607D8B;
-}
-nav a:hover {
-  color: #039be5;
-  background-color: #CFD8DC;
-}
-nav a.active {
-  color: #359007;
-}
-
-table.navbar {
-  width: 100%;
-}
-
-header {
-  margin-top: 10px;
+  position: relative;
+  overflow: auto;
 }
 
 footer {
-  margin-top: 10px;
+  margin: 10px 0px;
   text-align: center;
+  width: 100%
 }
 
-main {
-  margin-top: 10px;
-  padding-left: 10%;
-  padding-right: 10%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  background-color: #eee;
+.spacer {
+  flex: 1 1 auto;
 }

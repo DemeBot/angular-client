@@ -30,7 +30,7 @@ div.canvas-container {
 }
 
 .button-group {
-  background-color: slategrey;
+  background-color: #359007;
   display: flex;
   flex-direction: row;
   vertical-align: middle;
@@ -43,8 +43,9 @@ div.canvas-container {
     justify-content: center;
 }
 
-#plot-container {
+.plot-container {
     position: relative;
+    width: 100%
 }
 
 .button-col {

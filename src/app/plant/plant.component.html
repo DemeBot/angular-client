@@ -3,27 +3,21 @@
   Here a user will be able to add new plants or change information on existing plant.</p>
 
 <div class="plant-full-window">
-<div class="plant-list">
-  <md-card>
-    <md-list *ngIf="plants">
+  <md-card class="plant-list-container">
+    <md-list *ngIf="plants" class="plant-list">
       <div class="icon-container">
        <button md-raised-button class="add-plant-button"> ADD </button>
-    </div>
-            <md-list-item *ngFor="let plant of plants" class="plant-list-item" (click)="onSelect(plant)">
-         {{plant.name}}
+      </div>
+      <md-list-item *ngFor="let plant of plants" class="plant-list-item">
+         <button md-button (click)="onSelect(plant)">{{plant.name}}</button>
       </md-list-item>
-            </md-list>
+    </md-list>
+    <span class="spacer"></span>
     
   </md-card>
-</div>
 
-<div class="plant-details">
-  <md-card>
+  <md-card class="plant-details">
     <div *ngIf="selectedPlant">
-      
-       
-      
-
       <span><h1 class="uppercase">{{selectedPlant.name}}<img src="{{selectedPlant.name}}.jpg" height="50" width="100" alt="{{selectedPlant.name}}" align="right" ></h1></span>
       <table>
           <tr><th class="column_editor">HEIGHT</th><td class="infor_editor">{{selectedPlant.height}}</td></tr>
@@ -37,7 +31,6 @@
       
     </div>
   </md-card>
-</div>
 </div>
 
 
