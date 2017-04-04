@@ -30,7 +30,7 @@ div.canvas-container {
 }
 
 .button-group {
-  background-color: slategrey;
+  background-color: #359007;
   display: flex;
   flex-direction: row;
   vertical-align: middle;

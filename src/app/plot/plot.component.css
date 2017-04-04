@@ -2,7 +2,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: slategray;
+    background-color: #359007;
 }
 
 .selected-plot-details {
