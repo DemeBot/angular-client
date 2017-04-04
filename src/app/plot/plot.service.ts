@@ -14,7 +14,7 @@ const baseUrl: string = window.location.origin;
 @Injectable()
 export class PlotService {
 
-    serviceUrl;
+    serviceUrl: string;
 
     constructor( private http: Http ) {
         // If baseUrl has a port number

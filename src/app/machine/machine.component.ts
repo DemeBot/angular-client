@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 
-import { Plot } from './../plot/plot';
-
 import { PlotService } from './../plot/plot.service';
+import { SerialService } from './../serial/serial.service';
+
+import { Plot } from './../plot/plot';
 import { PlotContent } from './../plot/plotContent';
 import { PlotPosition } from './../plot/plotPositions';
 
@@ -10,7 +11,7 @@ import { PlotPosition } from './../plot/plotPositions';
   selector: 'machine',
   styleUrls: ['./machine.component.css'],
   templateUrl: './machine.component.html',
-  providers: [ PlotService ]
+  providers: [ PlotService, SerialService ]
 })
 
 export class MachineComponent implements OnInit, AfterViewInit {
@@ -40,7 +41,7 @@ export class MachineComponent implements OnInit, AfterViewInit {
 
   selectedPlot;
 
-  constructor( private plotService: PlotService ) {  }
+  constructor( private plotService: PlotService, private serialService: SerialService ) {  }
 
   ngAfterViewInit() {
     this.renderPlot();

@@ -46,7 +46,7 @@ const baseUrl: string = window.location.origin;
 @Injectable()
 export class PlantService {
 
-    serviceUrl;
+    serviceUrl: string;
 
     constructor( private http: Http ) {
         // If baseUrl has a port number
