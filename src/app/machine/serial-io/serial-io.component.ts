@@ -22,12 +22,7 @@ export class SerialIOComponent implements OnInit {
 
 	ngOnInit() {
 		this.serialService.messages.subscribe(msg => {
-			console.log("serial-io1");
 			this.messages.push(msg);
-		});
-
-		this.serialService.messages.subscribe(msg => {
-			console.log("serial-io2");
 		});
 	}
 }

@@ -18,7 +18,6 @@ export class SerialService {
         this.messages = < Subject< string > >this.websocketService
             .connect()
             .map( ( response: any ): string => {
-                console.log( response );
                 return response.data;
             } )
             .share();

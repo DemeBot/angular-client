@@ -54,17 +54,12 @@ export class MachineComponent implements OnInit {
     Z: 0
   };
 
-  constructor( private sS: SerialService, private plotService: PlotService ) {  }
+  constructor( private serialService: SerialService, private plotService: PlotService ) {  }
 
   ngOnInit() {
     this.getPositions();
-    console.log("TEST");
-
-    this.sS.messages.subscribe( msg => {
-      console.log("machine");
-    } );
-
-    this.sS.states.subscribe( state => {
+    
+    this.serialService.states.subscribe( state => {
       this.state = state;
     } );
   }
