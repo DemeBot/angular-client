@@ -64,9 +64,10 @@ export class MachineComponent implements OnInit {
     } );
   }
 
-  printPosition(){
-    console.log( "R:" + this.gantryLocation + " T:" + this.angle + " Z:" + this.zPostion ) ;
-    console.log( "G00 " + "R" + this.gantryLocation + " T" + Math.ceil( this.angle ) + " Z" + Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) );
+  printPosition( state: MachineState = this.state ): string {
+    console.log( "R:" + state.R + " T:" + state.T + " Z:" + state.Z ) ;
+    let position: string = "G00 " + "R" + state.R + " T" + Math.ceil( state.T ) + " Z" + Math.ceil( ( 1 - state.Z ) * this.plot.height );
+    return position;
   }
 
   btnIn( amount: number ): void {
