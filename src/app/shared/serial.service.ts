@@ -12,11 +12,13 @@ export class SerialService {
 
     public messages: Subject< string > = new Subject< string >();
     public states: Subject< MachineState > = new Subject< MachineState >();
+    private connection: Subject< MessageEvent >;
 
     constructor( private websocketService: WebSocketService ) {
 
-        this.messages = < Subject< string > >this.websocketService
-            .connect()
+        this.connection = this.websocketService.connect();
+
+        this.messages = < Subject< string > >this.connection
             .map( ( response: any ): string => {
                 return response.data;
             } )
@@ -47,5 +49,11 @@ export class SerialService {
 
             } )
             .share();
+    }
+
+    sendMessage( message: string ) {
+        let m = new MessageEvent( 'message', { data: message } );
+        console.log( "Sending command:" + JSON.stringify( m ) );
+        this.connection.next( m );
     }
 }

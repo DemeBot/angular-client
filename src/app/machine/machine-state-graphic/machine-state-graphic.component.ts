@@ -77,24 +77,27 @@ export class MachineStateGraphicComponent implements AfterViewInit, OnInit, OnCh
 
     let gantry_Center = s.circle( rDist * this.scaleFactor + this.center.x, this.center.y, 20 * this.scaleFactor );
 
+    let gantry = s.group( gantry_L, gantry_R, gantry_Center );
+    
     gantry_Center.attr({
       fillOpacity: 0,
       stroke: "blue",
-      strokeWidth: 5,
-      transform: "rotate( " + angle + "," + this.center.x + "," + this.center.y + ")"
+      strokeWidth: 5
     });
 
     gantry_L.attr({
       fill: "blue",
       stroke: "#000",
-      strokeWidth: 2,
-      transform: "rotate( " + angle + "," + this.center.x + "," + this.center.y + ")"
+      strokeWidth: 2
     });
 
     gantry_R.attr({
       fill: "blue",
       stroke: "#000",
-      strokeWidth: 2,
+      strokeWidth: 2
+    });
+
+    gantry.attr({
       transform: "rotate( " + angle + "," + this.center.x + "," + this.center.y + ")"
     });
   }
@@ -121,6 +124,23 @@ export class MachineStateGraphicComponent implements AfterViewInit, OnInit, OnCh
     // Apply sizing to the canvas
     this.canvas.nativeElement.setAttribute( 'width', this.canvasWidth );
     this.canvas.nativeElement.setAttribute( 'height', this.canvasHeight );
+
+    // this.s.click( ( event ) => {
+    //   // console.log( event );
+    //   console.log( this.s.getBBox() );
+    //   console.log( "X:" + event.layerX   + " Y:" + event.layerY );
+    // } );
+
+    // // Set up blackground
+    // this.s.rect(0,0,2000,1000)
+    // .attr( {
+    //   fillOpacity: 0.0
+    // } )
+    // .click( ( event ) => {
+    //   console.log( event );
+    //   console.log( "X:" + event.layerX  + " Y:" + event.layerY );
+    // } );
+
 
     // Get plot centerpoint
     this.center = {
