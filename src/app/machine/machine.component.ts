@@ -42,6 +42,8 @@ export class MachineComponent implements OnInit {
 
   selectedPlot;
 
+  commandBuffer: string;
+
   ghostState: MachineState = {
     R: this.gantryLocation,
     T: this.angle,
@@ -61,6 +63,7 @@ export class MachineComponent implements OnInit {
     this.serialService.states.subscribe( state => {
       this.state = state;
     } );
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
 
   printPosition( state: MachineState = this.state ): string {
@@ -77,28 +80,57 @@ export class MachineComponent implements OnInit {
   btnOut( amount: number ): void {
     if ( this.gantryLocation < this.plot.radius ) this.gantryLocation = this.gantryLocation + amount;
     this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
 
   btnUp( amount: number ): void {
     amount /= this.plot.height;
     if ( ( this.zPostion - amount ) >= this.zMinPosition) this.zPostion = this.zPostion - amount;
     this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
 
   btnDown( amount: number ): void {
     amount /= this.plot.height;
     if ( ( this.zPostion + amount ) <= this.zMaxPosition) this.zPostion = this.zPostion + amount;
     this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
 
   btnClockwise( amount: number ): void {
     if ( ( this.angle + amount ) <= 180) this.angle = this.angle + amount;
     this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
 
   btnCounterclockwise( amount: number ): void {
     if ( ( this.angle - amount ) >= 0) this.angle = this.angle - amount;
     this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
+  }
+
+  btnHelp() {
+    this.commandBuffer = "help"
+  }
+
+  btnHome() {
+    this.commandBuffer = "home"
+  }
+
+  btnWaterOn() {
+    this.commandBuffer = "help"
+  }
+
+  btnWaterOff() {
+    this.commandBuffer = "help"
+  }
+
+  btnVacuumOn() {
+    this.commandBuffer = "help"
+  }
+
+  btnVacuumOff() {
+    this.commandBuffer = "help"
   }
 
    getPositions(): void {

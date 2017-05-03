@@ -47,8 +47,27 @@
           <button md-raised-button class="flex-item" (click)="btnCounterclockwise(90/4)"><i class="material-icons">keyboard_arrow_right</i><i class="material-icons">keyboard_arrow_right</i></button>
         </div>
       </div>
+
+      <div class="button-group">
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnHome()"><i class="material-icons">home</i></button>
+          <div>
+            Water:
+            <button md-raised-button class="flex-item">ON</button>
+            <button md-raised-button class="flex-item">OFF</button>
+          </div>
+        </div>
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnHelp()">HELP</button>
+          <div>
+            Vacuum:
+            <button md-raised-button class="flex-item">ON</button>
+            <button md-raised-button class="flex-item">OFF</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <app-serial-io-component [messageInput]=printPosition(ghostState)></app-serial-io-component>
+  <app-serial-io-component [messageInput]="commandBuffer"></app-serial-io-component>
 </div>
