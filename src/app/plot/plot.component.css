@@ -6,7 +6,13 @@
 }
 
 .selected-plot-details {
-    margin: 0px 10px 10px 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.selected-plot-details-sub {
+    flex-grow: 1;
 }
 
 .plot-panel-spacer {

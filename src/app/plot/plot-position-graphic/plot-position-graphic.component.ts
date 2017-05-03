@@ -123,53 +123,6 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
         } );
       } );
     }
-    /*
-    if ( this.inputPositions ) {
-      this.inputPositions.forEach( ( position: PlotPosition ) => {
-        let angle = position.t * Math.PI / 180.0;
-        let x_pos = Math.cos( angle ) * position.r * this.scaleFactor;
-        let y_pos = Math.sin( angle ) * position.r * this.scaleFactor;
-        let size: number = 25;
-        let color: string = "grey";
-
-        if ( this.inputContents ) {
-          this.inputContents.forEach( ( content ) => {
-            if ( content.PLOT_POSITIONS_id === position.id ) {
-              color = "green";
-            }
-          } );
-        }
-
-        if ( this.selected ) {
-          if ( this.selected.id === position.id ) {
-            size = 35;
-            if ( this.inputContents ) {
-              this.inputContents.forEach( ( content ) => {
-                if ( content.PLOT_POSITIONS_id === position.id ) {
-                  color = "limegreen";
-                }
-              } );
-            }
-          }
-        }
-
-        let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos + this.margin * 1 / this.scaleFactor, size * this.scaleFactor);
-
-        this.plantGraphicsArray.push(plant);
-
-        plant.attr({
-          fill: color,
-          stroke: "#000",
-          strokeWidth: 5
-        });
-        
-        plant.click( ( event ) => {
-          console.log( "id: " + position.id + " R:" + position.r + " Theta:" + position.t );
-          this.plotClick.emit( position );
-        } );
-      });
-    }
-    */
   }
 
   ngOnInit() {

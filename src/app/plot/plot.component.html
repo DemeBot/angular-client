@@ -13,25 +13,25 @@ plant micro-service. A user can also remove plants from this component.</p>
             </div>
         </md-card>
     </div>
-    <div class="selected-plot-details">
+    <div class="selected-plot-details" [style.margin]="selectedPlot ? '10px' : '-5px'" >
+        <md-card *ngIf="selectedPlot" class="selected-plot-details-sub">
+            Radius: {{selectedPlot.position.r}}<br>
+            Angle: {{selectedPlot.position.t}}<br>
+            Height: {{selectedPlot.position.z}}
+        </md-card>
         <div *ngIf="selectedPlot !== null" class="plot-panel-spacer"></div>
-            <md-card *ngIf="selectedPlot">
-                Radius: {{selectedPlot.position.r}}<br>
-                Angle: {{selectedPlot.position.t}}<br>
-                Height: {{selectedPlot.position.z}}
-            </md-card>
-            <md-card *ngIf="selectedPlot && selectedPlot.occupied">
-                Contents: {{getPlant(selectedPlot.content.PLANT_TYPES_id).name}}<br>
-                Planted Date: {{selectedPlot.content.planted_at}}
-            </md-card>
-            <md-card *ngIf="selectedPlot && !selectedPlot.occupied">
-                  <md-select placeholder="Seed Bin Content" [(ngModel)]="selectedValue" name="plant">
-                    <md-option *ngFor="let plant of plants" [value]="plant.id">
-                    {{plant.name}}
-                    </md-option>
-                </md-select>
-                <button md-button>Plant</button>
-            </md-card>
+        <md-card *ngIf="selectedPlot && selectedPlot.occupied" class="selected-plot-details-sub">
+            Contents: {{getPlant(selectedPlot.content.PLANT_TYPES_id).name}}<br>
+            Planted Date: {{selectedPlot.content.planted_at}}
+        </md-card>
+        <md-card *ngIf="selectedPlot && !selectedPlot.occupied" class="selected-plot-details-sub">
+                <md-select placeholder="Seed Bin Content" [(ngModel)]="selectedValue" name="plant">
+                <md-option *ngFor="let plant of plants" [value]="plant.id">
+                {{plant.name}}
+                </md-option>
+            </md-select>
+            <button md-button>Plant</button>
+        </md-card>
     </div>
 </div>
 <app-serial-io-component [messageInput]=printPosition()></app-serial-io-component>
