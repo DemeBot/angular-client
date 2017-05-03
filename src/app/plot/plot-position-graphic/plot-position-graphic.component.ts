@@ -54,27 +54,30 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
       plantGraphic.remove();
     } );
 
-    if ( this.inputPositions && this.inputContents ) {
+    if ( this.inputPositions ) {
       this.inputPositions.forEach( ( inputPosition ) => {
 
-        let position: { position: PlotPosition, content?: PlotContent, occupied: Boolean } = {
+        const position: { position: PlotPosition, content?: PlotContent, occupied: Boolean } = {
           position: inputPosition,
           content: null,
           occupied: false
         }
 
-        this.inputContents.forEach( ( inputContent ) => {
-          if ( inputContent.PLOT_POSITIONS_id === inputPosition.id ) {
-            position.content = inputContent;
-            position.occupied = true;
-          }
-        } );
+        if ( this.inputContents ) {
+          this.inputContents.forEach( ( inputContent ) => {
+            if ( inputContent.PLOT_POSITIONS_id === inputPosition.id ) {
+              position.content = inputContent;
+              position.occupied = true;
+            }
+          } );
+        }
+
         this.positions.push( position );
       } )
     }
   }
 
-  updateGraphic(){
+  updateGraphic() {
 
     if ( this.positions ) {
       this.positions.forEach( ( position ) => {
@@ -83,7 +86,7 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
         let y_pos = Math.sin( angle ) * position.position.r * this.scaleFactor;
         let size: number = 25;
 
-        let color: string = "grey";
+        let color: string = this.inputContents ? "grey" : "lightblue";
 
         if ( this.inputContents ) {
           this.inputContents.forEach( ( content ) => {

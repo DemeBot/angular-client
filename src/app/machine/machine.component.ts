@@ -58,7 +58,6 @@ export class MachineComponent implements OnInit {
 
   ngOnInit() {
     this.getPositions();
-    
     this.serialService.states.subscribe( state => {
       this.state = state;
     } );
