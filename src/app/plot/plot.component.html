@@ -23,6 +23,7 @@ plant micro-service. A user can also remove plants from this component.</p>
         <md-card *ngIf="selectedPlot && selectedPlot.occupied" class="selected-plot-details-sub">
             Contents: {{getPlant(selectedPlot.content.PLANT_TYPES_id).name}}<br>
             Planted Date: {{selectedPlot.content.planted_at}}
+            <button md-button (click)="deleteContent(selectedPlot.content.id)">Remove</button>
         </md-card>
         <md-card *ngIf="selectedPlot && !selectedPlot.occupied" class="selected-plot-details-sub">
                 <md-select placeholder="Seed Bin Content" [(ngModel)]="selectedValue" name="plant">
@@ -30,9 +31,9 @@ plant micro-service. A user can also remove plants from this component.</p>
                 {{plant.name}}
                 </md-option>
             </md-select>
-            <button md-button>Plant</button>
+            <button md-button (click)="sendPlantCommand()" [disabled]="!selectedValue">Plant</button>
         </md-card>
     </div>
 </div>
-<app-serial-io-component [messageInput]=printPosition()></app-serial-io-component>
+<app-serial-io-component></app-serial-io-component>
 </div>

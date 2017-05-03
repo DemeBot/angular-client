@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/toPromise';
@@ -30,10 +30,39 @@ export class PlotService {
         this.serviceUrl += ":8080" + "/plot/api";
     }
 
-    getContents(): Promise<PlotContent[]> {
+    getContents(): Promise < PlotContent[] > {
         return this.http.get( this.serviceUrl + "/contents" )
         .toPromise()
         .then( response => response.json().plot_content as PlotContent[] )
+        .catch( this.handleError )
+    }
+
+    deleteContent( _id: number ): Promise < PlotContent > {
+
+        let body = {
+            id: _id,
+        }
+        let headers = new Headers({ 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type' });
+        let options = new RequestOptions({ headers: headers, body: body });
+
+        return this.http.delete( this.serviceUrl + "/contents", options )
+        .toPromise()
+        .then( response => response.json()[0] as PlotContent )
+        .catch( this.handleError );
+    }
+
+    addContent( plant_types_id: number, plot_positions_id: number ): Promise < PlotContent > {
+        let body = {
+            planted_at: new Date(),
+            PLANT_TYPES_id: plant_types_id,
+            PLOT_POSITIONS_id: plot_positions_id
+        }
+        let headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ headers: headers });
+
+        return this.http.post( this.serviceUrl + "/contents", body )
+        .toPromise()
+        .then( response => response.json() as PlotContent )
         .catch( this.handleError )
     }
 

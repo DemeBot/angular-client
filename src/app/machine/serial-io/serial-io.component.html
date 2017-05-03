@@ -8,11 +8,11 @@
     <button md-icon-button (click)="collapsed=!collapsed" class="collapse-button" style="background-color: white">
         <i class="material-icons">{{collapsed ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
         </button>
-    <div [hidden]="collapsed" class="chat-window">
+    <div class="chat-window">
         <div class="panel-container">
             <div class="panel panel-default">
 
-                <div class="panel-heading top-bar">
+                <div [hidden]="collapsed" class="panel-heading top-bar">
                 <div class="panel-title-container">
                     <h3 class="panel-title">
                     <span class="glyphicon glyphicon-comment"></span>
@@ -24,7 +24,7 @@
                 </div>
                 </div>
 
-                <div class="panel-body msg-container-base">
+                <div [hidden]="collapsed" class="panel-body msg-container-base">
                     <div class="messages" #messageWindow>
                         <p *ngFor="let msg of messages">
                             <strong>{{msg}}</strong> 

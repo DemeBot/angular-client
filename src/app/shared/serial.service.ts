@@ -71,7 +71,7 @@ export class SerialService {
 
     sendMessage( message: string ) {
         let m = new MessageEvent( 'message', { data: message } );
-        console.log( "Sending command:" + JSON.stringify( m ) );
+        console.log( "Sending command:" + JSON.stringify( message ) );
         this.connection.next( m );
     }
 }
