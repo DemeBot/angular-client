@@ -4,8 +4,11 @@
         <strong>{{msg}}</strong> 
     </p>
 </div>-->
-<md-card class="chat-window-container">
-    <div class="chat-window">
+<md-card class="chat-window-container" [style.height]="collapsed ? '2%' : '95%'">
+    <button md-icon-button (click)="collapsed=!collapsed" class="collapse-button" style="background-color: white">
+        <i class="material-icons">{{collapsed ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+        </button>
+    <div [hidden]="collapsed" class="chat-window">
         <div class="panel-container">
             <div class="panel panel-default">
 
@@ -13,7 +16,7 @@
                 <div class="panel-title-container">
                     <h3 class="panel-title">
                     <span class="glyphicon glyphicon-comment"></span>
-                    Recieved messages:
+                    Recieved messages
                     </h3>
                 </div>
                 <div class="panel-buttons-container">
@@ -37,7 +40,7 @@
                     (keydown.enter)="onEnter($event)"
                     [(ngModel)]="draftCommand" />
                     <span class="input-group-btn">
-                        <button class="btn-chat"
+                        <button md-button class="btn-chat"
                         (click)="onEnter($event)"
                         >Send</button>
                     </span>

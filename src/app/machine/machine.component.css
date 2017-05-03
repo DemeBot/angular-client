@@ -77,7 +77,3 @@ app-machine-state-graphic {
 #ghost-state {
   opacity: 0.5;
 }
-
-app-serial-io-component {
-  width: 350px;
-}

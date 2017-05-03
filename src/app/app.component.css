@@ -26,6 +26,11 @@ button {
   background-color: #eee;
   position: relative;
   overflow: auto;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 65px;
 }
 
 footer {

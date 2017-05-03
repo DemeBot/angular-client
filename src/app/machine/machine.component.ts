@@ -65,7 +65,7 @@ export class MachineComponent implements OnInit {
   }
 
   printPosition( state: MachineState = this.state ): string {
-    console.log( "R:" + state.R + " T:" + state.T + " Z:" + state.Z ) ;
+    // console.log( "R:" + state.R + " T:" + state.T + " Z:" + state.Z ) ;
     let position: string = "G00 " + "R" + state.R + " T" + Math.ceil( state.T ) + " Z" + Math.ceil( ( 1 - state.Z ) * this.plot.height );
     return position;
   }

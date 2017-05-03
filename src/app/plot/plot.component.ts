@@ -4,19 +4,22 @@ import { PlotService } from './plot.service';
 import { PlotContent } from './plotContent';
 import { PlotPosition } from './plotPositions';
 
+import { PlantService } from './../plant/plant.service';
+import { Plant } from './../plant/plant';
+
 import { Plot } from './plot';
 
 @Component({
   selector: 'plot',
   styleUrls: ['./plot.component.css'],
   templateUrl: './plot.component.html',
-  providers: [ PlotService ]
+  providers: [ PlotService, PlantService ]
 })
 
 export class PlotComponent implements OnInit {
 
   plot: Plot = {
-    radius: 500,
+    radius: 550,
     angle: Math.PI,
     height: 1200,
     trackWidth: 90,
@@ -24,28 +27,15 @@ export class PlotComponent implements OnInit {
   }
 
   plotPositions: PlotPosition[];
-  selectedPosition: PlotPosition;
+  plotContents: PlotContent[];
 
   selectedPlot;
 
-  mockPlotPositions: any[] = [
-   { pos: 1, r: 200, t: 0, z: 0 },
-   { pos: 2, r: 200, t: 45, z: 0 },
-   { pos: 3, r: 200, t: 90, z: 0 },
-   { pos: 4, r: 200, t: 135, z: 0 },
-   { pos: 5, r: 200, t: 180, z: 0 },
-   { pos: 6, r: 400, t: 0, z: 0 },
-   { pos: 7, r: 400, t: 23, z: 0 },
-   { pos: 8, r: 400, t: 45, z: 0 },
-   { pos: 9, r: 400, t: 68, z: 0 },
-   { pos: 10, r: 400, t: 90, z: 0 },
-   { pos: 11, r: 400, t: 113, z: 0 },
-   { pos: 12, r: 400, t: 135, z: 0 },
-   { pos: 13, r: 400, t: 158, z: 0 },
-   { pos: 14, r: 400, t: 180, z: 0 },
- ]
+  selectedValue;
 
- constructor( private plotService: PlotService ) {  }
+  plants: Plant[];
+
+ constructor( private plotService: PlotService, private plantService: PlantService ) {  }
 
  getPositions(): void {
    this.plotService.getPositions()
@@ -53,8 +43,15 @@ export class PlotComponent implements OnInit {
      // console.log( JSON.stringify( positions ) );
      if ( positions ) {
       this.plotPositions = positions;
-      this.selectedPosition = positions[0]; 
      }
+   } );
+ }
+
+ getContents(): void {
+   this.plotService.getContents()
+   .then( ( contents ) => {
+     this.plotContents = contents;
+     console.log( JSON.stringify( contents ) );
    } );
  }
 
@@ -62,15 +59,46 @@ export class PlotComponent implements OnInit {
    delete( this.selectedPlot );
  }
 
- onSelect( plot:PlotContent ): void{
+  getPlants(): void {
+    this.plantService.getPlants()
+    .then( ( plants ) => {
+      console.log( JSON.stringify( plants ) );
+      this.plants = plants;
+    } );
+  }
+
+ onSelect( plot: { position: PlotPosition, content: PlotContent, occupied: boolean }  ): void {
    if ( this.selectedPlot === plot )
       delete(  this.selectedPlot );
    else
       this.selectedPlot=plot;
  }
 
+ printPosition(){
+   let position: string;
+   if ( this.selectedPlot ) {
+    position = "G00 " + "R" + this.selectedPlot.position.r + " T" + Math.ceil( this.selectedPlot.position.t ) + " Z" + Math.ceil( ( 1 - this.selectedPlot.position.z ) * this.plot.height );
+   }
+   else {
+     position="";
+   }
+   return position;
+ }
+
+ getPlant( id: number ): Plant {
+   let returnPlant = null;
+   this.plants.forEach( ( plant ) => {
+     if ( plant.id === id ) {
+       returnPlant = plant;
+     }
+   } );
+   return returnPlant;
+ }
+
  ngOnInit() {
    this.getPositions();
+   this.getContents();
+   this.getPlants();
  }
 }
 

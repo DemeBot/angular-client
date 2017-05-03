@@ -18,7 +18,7 @@
 
   <md-card class="plant-details">
     <div *ngIf="selectedPlant">
-      <span><h1 class="uppercase">{{selectedPlant.name}}<img src="{{selectedPlant.name}}.jpg" height="50" width="100" alt="{{selectedPlant.name}}" align="right" ></h1></span>
+      <span><h1 class="uppercase">{{selectedPlant.name}}<img src="assets/{{selectedPlant.name.toLowerCase()}}.jpg" height="50" width="100" alt="{{selectedPlant.name}}" align="right" ></h1></span>
       <table>
           <tr><th class="column_editor">HEIGHT</th><td class="infor_editor">{{selectedPlant.height}}</td></tr>
           <tr><th class="column_editor">WIDTH</th><td class="infor_editor">{{selectedPlant.width}}</td></tr>

@@ -14,7 +14,15 @@ export class SerialService {
     public states: Subject< MachineState > = new Subject< MachineState >();
     private connection: Subject< MessageEvent >;
 
+    private lastState: MachineState;
+
     constructor( private websocketService: WebSocketService ) {
+
+        this.lastState = {
+            R: 0,
+            T: 0,
+            Z: 0
+        }
 
         this.connection = this.websocketService.connect();
 
@@ -23,27 +31,37 @@ export class SerialService {
                 return response.data;
             } )
             .share();
-        
+
         this.states = < Subject< MachineState > >this.messages
             .filter( ( message: string, index: number ) => {
                return stateRegex.test( message );
             } )
             .map( ( message: string ): MachineState => {
-                console.log( message )
+                console.log( "Parsng State:" + message )
 
-                let regex_R:RegExp = /R:([0-9.]*)/;
-                let regex_T:RegExp = /T:([0-9.]*)/;
-                let regex_Z:RegExp = /Z:([0-9.]*)/;
+                let regex_R:RegExp = /[Rr]:([0-9.]*)/;
+                let regex_T:RegExp = /[Tt]:([0-9.]*)/;
+                let regex_Z:RegExp = /[Zz]:([0-9.]*)/;
 
-                let state_R: number = parseFloat(regex_R.exec( message )[1]);
-                let state_T: number = parseFloat(regex_T.exec( message )[1]);
-                let state_Z: number = parseFloat(regex_Z.exec( message )[1]);
+                let pos_R = regex_R.exec( message )[1];
+                let pos_T = regex_T.exec( message )[1];
+                let pos_Z = regex_Z.exec( message )[1];
+
+                console.log(pos_R);
+                console.log(pos_T);
+                console.log(pos_Z);
+
+                let state_R: number = parseFloat(pos_R);
+                let state_T: number = parseFloat(pos_T);
+                let state_Z: number = parseFloat(pos_Z);
 
                 let state: MachineState = {
                     R: state_R,
                     T: state_T,
                     Z: state_Z
                 };
+
+                console.log( JSON.stringify( state ) );
 
                 return state;
 

@@ -14,6 +14,8 @@ export class SerialIOComponent implements OnInit, OnChanges {
 	messages: string[] = [];
 	draftCommand: string = "";
 
+	collapsed: boolean = false;
+
 	constructor(private serialService: SerialService) {
 	}
 

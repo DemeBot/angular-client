@@ -1,14 +1,23 @@
 /*style="overflow: auto; max-height=600px; display:flex; flex-direction:column-reverse;"*/
 
+.collapse-button {
+  position: relative;
+  top: -5px;
+  right: -5px;
+  z-index: 5;
+  float: right;
+}
+
 .chat-window-container {
   bottom: 0;
   right: 0;
-  position: absolute;
+  position: fixed;
   float: left;
-  margin: 10px;
-  max-height: 750px;
-  height: 95%;
+  margin: 0px 20px 0px 0px;
+  max-height: 535px;
   padding: 5px;
+
+  // border-radius: 20px 20px 0px 0px;
 
   > div > .panel {
     border-radius: 5px 5px 0 0;
@@ -16,7 +25,7 @@
 
   .panel-footer {
     position: absolute;
-    bottom: 10px;
+    bottom: 0px;
   }
 
   .panel-body msg-container-base {
@@ -29,10 +38,11 @@
     top: 0;
     left: 0;
     z-index: 0;
-    background-color: white;
+    background-color: #359007;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    width: 240px;
     padding: 10px;
+
+    // border-radius: 20px 5px 15px 0px;
 
     > h3 {
       margin: 0;
@@ -41,11 +51,9 @@
 }
 
 .messages {
-  margin-top: 40px;
-  margin-bottom: 35px;
   max-height: 460px;
   overflow-x: auto;
-  width: 250px;
+  width: 275px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     > {
       p {

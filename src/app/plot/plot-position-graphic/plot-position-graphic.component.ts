@@ -2,22 +2,27 @@ import { Component, Input, Output, EventEmitter, ViewChild, ElementRef, AfterVie
 
 import { Plot } from './../plot';
 import { PlotPosition } from './../plotPositions';
+import { PlotContent } from './../plotContent';
 
 const Snap = require(`imports-loader?this=>window,fix=>module.exports=0!snapsvg/dist/snap.svg.js`);
 
 @Component({
   selector: 'app-plot-position-graphic',
-  styleUrls: ['./plot-position-graphic.component.css'],
+  styleUrls: [ './plot-position-graphic.component.css' ],
   templateUrl: './plot-position-graphic.component.html'
 })
 
 export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnChanges {
   @Input() plot: Plot;
-  @Input() positions: PlotPosition[];
-  @Input() selected: PlotPosition;
+  @Input() inputPositions: PlotPosition[];
+  @Input() inputContents: PlotContent[];
+  @Input() selected: { position: PlotPosition, content?: PlotContent, occupied: Boolean };
+
 
   @Output() plotClick = new EventEmitter();
   @Output() clear = new EventEmitter();
+
+
 
   // Margin to show around the image render. Can be provided from directive.
   @Input() margin: number = 10;
@@ -25,8 +30,10 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
   // Canvas element
   @ViewChild('plotPositionSvg') canvas: ElementRef;
 
+  private positions: { position: PlotPosition, content?: PlotContent, occupied: Boolean }[] = [];
+
   private s;
-  private plants: any = [];
+  private plantGraphicsArray: any = [];
   private canvasWidth: number;
   private canvasHeight: number;
   private center: { x: number, y: number };
@@ -34,46 +41,135 @@ export class PlotPositionGraphicComponent implements AfterViewInit, OnInit, OnCh
 
   ngAfterViewInit() {
     this.canvasSetup();
+    this.updatePositions();
   }
 
   ngOnChanges() {
     this.updatePositions();
+    this.updateGraphic();
   }
 
-  updatePositions(){
-    this.plants.forEach( ( plant ) => {
-      plant.remove();
+  updatePositions() {
+    this.plantGraphicsArray.forEach( ( plantGraphic ) => {
+      plantGraphic.remove();
     } );
-    if ( this.positions )
-    this.positions.forEach( ( position: PlotPosition ) => {
-      let angle = position.t * Math.PI / 180.0;
-      let x_pos = Math.cos( angle ) * position.r * this.scaleFactor;
-      let y_pos = Math.sin( angle ) * position.r * this.scaleFactor;
-      let size: number = 25;
-      let color: string = "green";
 
-      if ( this.selected ) {
-        if ( this.selected.id === position.id ) {
-          size = 35;
-          color = "limegreen";
+    if ( this.inputPositions && this.inputContents ) {
+      this.inputPositions.forEach( ( inputPosition ) => {
+
+        let position: { position: PlotPosition, content?: PlotContent, occupied: Boolean } = {
+          position: inputPosition,
+          content: null,
+          occupied: false
         }
-      }
 
-      let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos + this.margin * 1 / this.scaleFactor, size * this.scaleFactor);
+        this.inputContents.forEach( ( inputContent ) => {
+          if ( inputContent.PLOT_POSITIONS_id === inputPosition.id ) {
+            position.content = inputContent;
+            position.occupied = true;
+          }
+        } );
+        this.positions.push( position );
+      } )
+    }
+  }
 
-      this.plants.push(plant);
+  updateGraphic(){
 
-      plant.attr({
-        fill: color,
-        stroke: "#000",
-        strokeWidth: 5
-      });
-      
-      plant.click( ( event ) => {
-        console.log( "id: " + position.id + " R:" + position.r + " Theta:" + position.t );
-        this.plotClick.emit( position );
+    if ( this.positions ) {
+      this.positions.forEach( ( position ) => {
+        let angle = position.position.t * Math.PI / 180.0;
+        let x_pos = Math.cos( angle ) * position.position.r * this.scaleFactor;
+        let y_pos = Math.sin( angle ) * position.position.r * this.scaleFactor;
+        let size: number = 25;
+
+        let color: string = "grey";
+
+        if ( this.inputContents ) {
+          this.inputContents.forEach( ( content ) => {
+            if ( content.PLOT_POSITIONS_id === position.position.id ) {
+              color = "green";
+            }
+          } );
+        }
+
+        if ( this.selected ) {
+          if ( this.selected.position.id === position.position.id ) {
+            size = 35;
+            if ( this.inputContents ) {
+              this.inputContents.forEach( ( content ) => {
+                if ( content.PLOT_POSITIONS_id === position.position.id ) {
+                  color = "limegreen";
+                }
+              } );
+            }
+          }
+        }
+
+        let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos + this.margin * 1 / this.scaleFactor, size * this.scaleFactor);
+
+        this.plantGraphicsArray.push(plant);
+
+        plant.attr({
+          fill: color,
+          stroke: "#000",
+          strokeWidth: 5
+        });
+        
+        plant.click( ( event ) => {
+          console.log( "id: " + position.position.id + " R:" + position.position.r + " Theta:" + position.position.t );
+          console.log( JSON.stringify( position ) );
+          this.plotClick.emit( position );
+        } );
       } );
-    });
+    }
+    /*
+    if ( this.inputPositions ) {
+      this.inputPositions.forEach( ( position: PlotPosition ) => {
+        let angle = position.t * Math.PI / 180.0;
+        let x_pos = Math.cos( angle ) * position.r * this.scaleFactor;
+        let y_pos = Math.sin( angle ) * position.r * this.scaleFactor;
+        let size: number = 25;
+        let color: string = "grey";
+
+        if ( this.inputContents ) {
+          this.inputContents.forEach( ( content ) => {
+            if ( content.PLOT_POSITIONS_id === position.id ) {
+              color = "green";
+            }
+          } );
+        }
+
+        if ( this.selected ) {
+          if ( this.selected.id === position.id ) {
+            size = 35;
+            if ( this.inputContents ) {
+              this.inputContents.forEach( ( content ) => {
+                if ( content.PLOT_POSITIONS_id === position.id ) {
+                  color = "limegreen";
+                }
+              } );
+            }
+          }
+        }
+
+        let plant = this.s.circle(this.center.x + x_pos, this.center.y + y_pos + this.margin * 1 / this.scaleFactor, size * this.scaleFactor);
+
+        this.plantGraphicsArray.push(plant);
+
+        plant.attr({
+          fill: color,
+          stroke: "#000",
+          strokeWidth: 5
+        });
+        
+        plant.click( ( event ) => {
+          console.log( "id: " + position.id + " R:" + position.r + " Theta:" + position.t );
+          this.plotClick.emit( position );
+        } );
+      });
+    }
+    */
   }
 
   ngOnInit() {
