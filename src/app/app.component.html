@@ -1,22 +1,18 @@
-<header>
-  <h2 class="titlebar" text-color="#359007" align="center">
-    <img src="https://goo.gl/ibqsB5" alt="logo" height="40px">
+<md-toolbar>
+    <img src="/assets/DEMETER.png" alt="logo" height="40px">
     {{title}}
-  </h2>
-  <nav align="center">
-  	<a [routerLink]="['/dashboard']" routerLinkActive="active">DASHBOARD</a>
-    <a [routerLink]="['/machine']" routerLinkActive="active">MACHINE</a>
-    <a [routerLink]="['/plant']" routerLinkActive="active">PLANT</a>
-    <a [routerLink]="['/plot']" routerLinkActive="active">PLOT</a>
-    <a [routerLink]="['/about']" routerLinkActive="active">ABOUT</a>
-  </nav>
-</header>
+    <span class="spacer"></span>
+    <button md-raised-button [routerLink]="['/dashboard']" routerLinkActive="active">DASHBOARD</button>
+    <button md-raised-button [routerLink]="['/machine']" routerLinkActive="active">MACHINE</button>
+    <button md-raised-button [routerLink]="['/plant']" routerLinkActive="active">PLANT</button>
+    <button md-raised-button [routerLink]="['/plot']" routerLinkActive="active">PLOT</button>
+    <button md-raised-button [routerLink]="['/about']" routerLinkActive="active">ABOUT</button>
+</md-toolbar>
 
-<main>
-	<router-outlet></router-outlet>
-</main>
-
-<footer>
-  <i class="fa fa-american-sign-language-interpreting fa-5x" aria-hidden="true"> </i>
-{{footer}}
-</footer>
+<div class="main-content">
+  <main>
+  <md-card style="margin-top: 30px; width:100%; margin-bottom: 100px;">
+    <router-outlet></router-outlet>
+  </md-card>
+  </main>
+</div>

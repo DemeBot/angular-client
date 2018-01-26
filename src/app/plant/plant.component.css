@@ -27,3 +27,73 @@
 .plant-description {
     width: 100%
 }
+
+.plant-full-window{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: #359007;
+
+}
+
+.plant-list-container{
+    margin: 10px;
+    text-align: center;
+    padding: 0px;
+}
+
+.plant-list {
+    padding-top: 15px;
+}
+
+.plant-list-item{
+    cursor: pointer; 
+    cursor: hand;
+}
+
+.plant-details{
+    margin: 10px;
+    flex-grow: 3;
+}
+
+md-icon{
+    float: right;
+}
+
+md-card {
+    display: flex;
+    flex-direction: column;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.add-plant-button{
+    background-color: #359007;
+}
+
+.plant-details-design{
+    background-color: #359007;
+    margin: 10px;
+}
+
+.column_editor{
+    background-color: aqua;
+    width: 25%;
+    border-radius: 10px;
+    padding: 5px;
+    margin:10px;
+
+}
+.infor_editor{
+    background-color: aquamarine;
+    width: 75%;
+    border-radius: 10px;
+    padding: 5px 7px;
+   
+}
+.uppercase{
+    text-transform: uppercase;
+}
+

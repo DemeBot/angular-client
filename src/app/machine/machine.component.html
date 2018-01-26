@@ -1,18 +1,73 @@
-<div class="canvas-container">
-  <canvas #myCanvas></canvas>
-  <canvas #zCanvas></canvas>
-</div>
+<div class="machine-page">
+  <div class="canvas-container">
+    <div class="plot-container">
+      <app-plot-background [plot]="plot" [margin]=35 class="appPlotBackground"></app-plot-background>
+      <app-plot-position-graphic
+      [plot]="plot" [inputPositions]="plotPositions"
+      [margin]=35 [selected]="selectedPlot"
+      class="appPlotPositionGraphic">
+      </app-plot-position-graphic>
+      <app-machine-state-graphic [plot]="plot" [margin]=35 [state]="ghostState" id="ghost-state"></app-machine-state-graphic>
+      <app-machine-state-graphic [plot]="plot" [margin]=35 [state]="state"></app-machine-state-graphic>
+    </div>
 
-<div class="flex-container" style="margin: 0 auto;">
-  <button class="flex-item" (click)="btnIn()"><i class="material-icons">keyboard_arrow_up</i></button>
-  R
-  <button class="flex-item" (click)="btnOut()"><i class="material-icons">keyboard_arrow_down</i></button>
+    <div class="flex-container" style="margin: 0 auto;">
+      <div class="button-group">
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnIn(5)"><i class="material-icons">keyboard_arrow_up</i></button>
+          <button md-raised-button class="flex-item" (click)="btnIn(50)"><i class="material-icons">keyboard_arrow_up</i><i class="material-icons">keyboard_arrow_up</i></button>
+        </div>
+        <span class="button-group-label">R</span>
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnOut(5)"><i class="material-icons">keyboard_arrow_down</i></button>
+          <button md-raised-button class="flex-item" (click)="btnOut(50)"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons">keyboard_arrow_down</i></button>
+        </div>
+      </div>
 
-  <button class="flex-item" (click)="btnDown()"><i class="material-icons">keyboard_arrow_down</i></button>
-  Z
-  <button class="flex-item" (click)="btnUp()"><i class="material-icons">keyboard_arrow_up</i></button>
+      <div class="button-group">
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnDown(10)"><i class="material-icons">keyboard_arrow_down</i></button>
+          <button md-raised-button class="flex-item" (click)="btnDown(50)"><i class="material-icons">keyboard_arrow_down</i><i class="material-icons">keyboard_arrow_down</i></button>
+        </div>
+        <span class="button-group-label">Z</span>
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnUp(10)"><i class="material-icons">keyboard_arrow_up</i></button>
+          <button md-raised-button class="flex-item" (click)="btnUp(50)"><i class="material-icons">keyboard_arrow_up</i><i class="material-icons">keyboard_arrow_up</i></button>
+        </div>
+      </div>
 
-  <button class="flex-item" (click)="btnClockwise()"><i class="material-icons">keyboard_arrow_left</i></button>
-  Θ
-  <button class="flex-item" (click)="btnCounterclockwise()"><i class="material-icons">keyboard_arrow_right</i></button>
+      <div class="button-group">
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnClockwise(90/32)"><i class="material-icons">keyboard_arrow_left</i></button>
+          <button md-raised-button class="flex-item" (click)="btnClockwise(90/4)"><i class="material-icons">keyboard_arrow_left</i><i class="material-icons">keyboard_arrow_left</i></button>
+        </div>
+        <span class="button-group-label">Θ</span>
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnCounterclockwise(90/32)"><i class="material-icons">keyboard_arrow_right</i></button>
+          <button md-raised-button class="flex-item" (click)="btnCounterclockwise(90/4)"><i class="material-icons">keyboard_arrow_right</i><i class="material-icons">keyboard_arrow_right</i></button>
+        </div>
+      </div>
+
+      <div class="button-group">
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnHome()"><i class="material-icons">home</i></button>
+          <div>
+            Water:
+            <button md-raised-button class="flex-item">ON</button>
+            <button md-raised-button class="flex-item">OFF</button>
+          </div>
+        </div>
+        <div class="button-col">
+          <button md-raised-button class="flex-item" (click)="btnHelp()">HELP</button>
+          <div>
+            Vacuum:
+            <button md-raised-button class="flex-item">ON</button>
+            <button md-raised-button class="flex-item">OFF</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-serial-io-component [messageInput]="commandBuffer"></app-serial-io-component>
 </div>

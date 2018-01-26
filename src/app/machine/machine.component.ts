@@ -1,158 +1,146 @@
-import {Component, ViewChild, ElementRef, AfterViewInit, OnInit} from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs/Observable';
+
+import { PlotService } from './../plot/plot.service';
+
+import { Plot } from './../plot/plot';
+import { PlotContent } from './../plot/plotContent';
+import { PlotPosition } from './../plot/plotPositions';
+
+import { MachineState } from './../shared/machine-state';
+import { SerialService } from './../shared/serial.service';
 
 @Component({
   selector: 'machine',
   styleUrls: ['./machine.component.css'],
-  templateUrl: './machine.component.html'
+  templateUrl: './machine.component.html',
+  providers: [ PlotService ]
 })
 
-export class MachineComponent implements OnInit, AfterViewInit {
-  @ViewChild("myCanvas") canvas: ElementRef;
-  @ViewChild("zCanvas") zCanvas: ElementRef;
-  angle = 0;
+export class MachineComponent implements OnInit {
+
+  plot: Plot = {
+    radius: 500,
+    angle: Math.PI,
+    height: 1200,
+    trackWidth: 90,
+    poleRadius: 45
+  }
+  
   gantryRadius = 15;
-  gantryMinRadius = 15;
-  gantryMaxRadius = 290;
-  zMinPosition = .01;
+
+  angle = 0;
+  gantryLocation = this.plot.poleRadius + this.gantryRadius;
+  gantryMaxRadius = 500;
+  zMinPosition = 0;
   zMaxPosition = 1;
   zPostion = this.zMaxPosition;
+  
+  plotPositions: PlotPosition[];
+  selectedPosition: PlotPosition;
 
-  ngAfterViewInit() {
-    this.renderPlot();
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+  selectedPlot;
+
+  commandBuffer: string;
+
+  ghostState: MachineState = {
+    R: this.gantryLocation,
+    T: this.angle,
+    Z: 0
   }
+
+  state: MachineState = {
+    R: 0,
+    T: 0,
+    Z: 0
+  };
+
+  constructor( private serialService: SerialService, private plotService: PlotService ) {  }
 
   ngOnInit() {
-
+    this.getPositions();
+    this.serialService.states.subscribe( state => {
+      this.state = state;
+    } );
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
 
-  btnIn(): void {
-    if (this.gantryRadius > this.gantryMinRadius) this.gantryRadius = this.gantryRadius - 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
-  }
-  btnOut(): void {
-    if (this.gantryRadius < this.gantryMaxRadius) this.gantryRadius = this.gantryRadius + 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
-  }
-  btnUp(): void {
-    if (this.zPostion > this.zMinPosition) this.zPostion = this.zPostion - .05;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
-  }
-  btnDown(): void {
-    if (this.zPostion < this.zMaxPosition) this.zPostion = this.zPostion + .05;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
-  }
-  btnClockwise(): void {
-    if (this.angle < 180) this.angle = this.angle + 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
-  }
-  btnCounterclockwise(): void {
-    if (this.angle > 0) this.angle = this.angle - 5;
-    this.drawPosition(this.angle, this.gantryRadius, this.zPostion);
+  printPosition( state: MachineState = this.state ): string {
+    // console.log( "R:" + state.R + " T:" + state.T + " Z:" + state.Z ) ;
+    let position: string = "G00 " + "R" + state.R + " T" + Math.ceil( state.T ) + " Z" + Math.ceil( ( 1 - state.Z ) * this.plot.height );
+    return position;
   }
 
-  renderPlot(): void {
-    let ctx: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
-    let zCtx: CanvasRenderingContext2D = this.zCanvas.nativeElement.getContext("2d");
-    let margin = 20;
-    let canvasWidth = 600;
-    let canvasHeight = (canvasWidth/2) + margin;
-    let width = canvasWidth - (2 * margin);
-    let height = 400;
-    let centerX = canvasWidth / 2;
-    let centerY = margin;
-    let trackOffset = 25;
-    let gantryLocation = 50;
-    let trackRadius = width/2;
-    let gantryExtension = 10;
-    let zMax = 25;
-    let zMin = canvasHeight-20;
-
-    this.canvas.nativeElement.setAttribute("width", canvasWidth);
-    this.canvas.nativeElement.setAttribute("height", canvasHeight);
-    this.zCanvas.nativeElement.setAttribute("height", canvasHeight);
-    this.zCanvas.nativeElement.setAttribute("width", 50);
-
-    // z axis
-    zCtx.font = "15px Arial";
-    zCtx.fillText("MIN",10,canvasHeight-5);
-    zCtx.fillText("MAX",10,15);
-    zCtx.beginPath();
-    zCtx.lineWidth = 2;
-    zCtx.moveTo(25,zMin);
-    zCtx.lineTo(25,zMax);
-    zCtx.stroke();
-
-    // track
-    ctx.beginPath();
-    ctx.arc(centerX,centerY,width/2,0,Math.PI);
-    ctx.fillStyle = '#ffdead';
-    ctx.fill();
-    ctx.stroke();
-
-    // plot
-    ctx.beginPath();
-    ctx.arc(centerX,centerY,(width/2)-trackOffset,0,Math.PI);
-    ctx.fillStyle = '#CD853F';
-    ctx.fill();
-    ctx.moveTo(centerX-trackRadius, margin);
-    ctx.lineTo(centerX+trackRadius, margin);
-    ctx.stroke();
-
-    // center pole
-    ctx.beginPath();
-    ctx.arc((width+2*margin)/2,margin,10,0,2*Math.PI);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
-    ctx.stroke();
+  btnIn( amount: number ): void {
+    if ( this.gantryLocation > ( this.plot.poleRadius + this.gantryRadius ) ) this.gantryLocation = this.gantryLocation - amount;
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
   }
 
-  drawPosition(theta, gantryRadius, zPosition): void {
-    let ctx: CanvasRenderingContext2D = this.canvas.nativeElement.getContext("2d");
-    let zCtx: CanvasRenderingContext2D = this.zCanvas.nativeElement.getContext("2d");
-    let margin = 20;
-    let canvasWidth = 600;
-    let canvasHeight = (canvasWidth/2) + margin;
-    let width = canvasWidth - (2 * margin);
-    let height = 400;
-    let centerX = canvasWidth / 2;
-    let centerY = margin;
-    let trackOffset = 25;
-    let gantryLocation = 50;
-    let trackRadius = width/2;
-    let gantryExtension = 10;
-    let r = trackRadius+gantryExtension;
-    let zMax = 25;
-    let zMin = canvasHeight-55;
-
-    ctx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
-    zCtx.clearRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
-    this.renderPlot(); // draw the plot
-
-    // arms
-    ctx.beginPath();
-    ctx.lineWidth = 3;
-    ctx.moveTo(centerX,centerY);
-    ctx.lineTo(centerX+r*(Math.cos(Math.PI * theta / 180.0)),centerY+r*(Math.sin(Math.PI * theta / 180.0)));
-    ctx.stroke();
-
-    // gantry
-    ctx.beginPath();
-    ctx.lineWidth = 1;
-    ctx.arc(centerX+gantryRadius*(Math.cos(Math.PI * theta / 180.0)),centerY+gantryRadius*(Math.sin(Math.PI * theta / 180.0)),5,0,2*Math.PI);
-    ctx.fillStyle = '#0000FF';
-    ctx.fill();
-    ctx.stroke();
-
-    // center pole
-    ctx.beginPath();
-    ctx.arc((width+2*margin)/2,margin,10,0,2*Math.PI);
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
-    ctx.stroke();
-
-    // z axis location
-    zCtx.fillStyle = "red";
-    zCtx.fillRect(12,zMax+(zPosition*zMin),25,10);
+  btnOut( amount: number ): void {
+    if ( this.gantryLocation < this.plot.radius ) this.gantryLocation = this.gantryLocation + amount;
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
   }
+
+  btnUp( amount: number ): void {
+    amount /= this.plot.height;
+    if ( ( this.zPostion - amount ) >= this.zMinPosition) this.zPostion = this.zPostion - amount;
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
+  }
+
+  btnDown( amount: number ): void {
+    amount /= this.plot.height;
+    if ( ( this.zPostion + amount ) <= this.zMaxPosition) this.zPostion = this.zPostion + amount;
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
+  }
+
+  btnClockwise( amount: number ): void {
+    if ( ( this.angle + amount ) <= 180) this.angle = this.angle + amount;
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
+  }
+
+  btnCounterclockwise( amount: number ): void {
+    if ( ( this.angle - amount ) >= 0) this.angle = this.angle - amount;
+    this.ghostState = { R: this.gantryLocation, T: this.angle, Z: Math.ceil( ( 1 - this.zPostion ) * this.plot.height ) };
+    this.commandBuffer = this.printPosition( this.ghostState );
+  }
+
+  btnHelp() {
+    this.commandBuffer = "help"
+  }
+
+  btnHome() {
+    this.commandBuffer = "home"
+  }
+
+  btnWaterOn() {
+    this.commandBuffer = "help"
+  }
+
+  btnWaterOff() {
+    this.commandBuffer = "help"
+  }
+
+  btnVacuumOn() {
+    this.commandBuffer = "help"
+  }
+
+  btnVacuumOff() {
+    this.commandBuffer = "help"
+  }
+
+   getPositions(): void {
+   this.plotService.getPositions()
+   .then( ( positions ) => {
+     // console.log( JSON.stringify( positions ) );
+     if ( positions ) {
+      this.plotPositions = positions;
+      this.selectedPosition = positions[0]; 
+     }
+   } );
+ }
 }

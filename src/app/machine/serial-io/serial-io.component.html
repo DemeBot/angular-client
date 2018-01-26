@@ -1,0 +1,53 @@
+<!--<h2>Recieved messages:</h2>
+<div class="messages">
+    <p *ngFor="let msg of messages">
+        <strong>{{msg}}</strong> 
+    </p>
+</div>-->
+<md-card class="chat-window-container" [style.height]="collapsed ? '3%' : '95%'">
+    <button md-icon-button (click)="collapsed=!collapsed" class="collapse-button" style="background-color: white">
+        <i class="material-icons">{{collapsed ? "keyboard_arrow_up" : "keyboard_arrow_down"}}</i>
+        </button>
+    <div class="chat-window">
+        <div class="panel-container">
+            <div class="panel panel-default">
+
+                <div [hidden]="collapsed" class="panel-heading top-bar">
+                <div class="panel-title-container">
+                    <h3 class="panel-title">
+                    <span class="glyphicon glyphicon-comment"></span>
+                    Recieved messages
+                    </h3>
+                </div>
+                <div class="panel-buttons-container">
+                    <!-- you could put minimize or close buttons here -->
+                </div>
+                </div>
+
+                <div [hidden]="collapsed" class="panel-body msg-container-base">
+                    <div class="messages" #messageWindow>
+                        <p *ngFor="let msg of messages">
+                            <strong>{{msg}}</strong> 
+                        </p>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="input-group">
+                    <input type="text"
+                    class="chat-input"
+                    placeholder="Write your message here..."
+                    (keydown.enter)="onEnter($event)"
+                    [(ngModel)]="draftCommand" />
+                    <span class="input-group-btn">
+                        <button md-button class="btn-chat"
+                        (click)="onEnter($event)"
+                        >Send</button>
+                    </span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</md-card>
